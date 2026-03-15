@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="SATHI – JLN Hospital Ajmer Navigation System. Find which gate to enter and where your department is.">
+<meta name="theme-color" content="#0a2342">
+<title>SATHI – JLN Hospital Ajmer | Navigation Guide</title>
+<script src="/assets/config.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&family=Exo+2:wght@300;400;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0a2342;
+  --navy-dark: #061629;
+  --teal: #0d6e8a;
+  --teal-light: #1a9ab8;
+  --gold: #e8a020;
+  --gold-light: #f5c842;
+  --white: #f8fafc;
+  --muted: rgba(248,250,252,0.55);
+  --bg: #041624;
+  --card: rgba(10,35,66,0.8);
+  --blue-strip: #1565c0;
+  --yellow-strip: #f9a825;
+  --red-strip: #c62828;
+  --green-strip: #2e7d32;
+  --font-en: 'Exo 2', sans-serif;
+  --font-hi: 'Noto Sans Devanagari', sans-serif;
+  --font-display: 'Playfair Display', serif;
+  --radius: 18px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-en); background: var(--bg); color: var(--white); }
+
+/* ── Navigation ─────────────────────────────────────────────────── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(4,22,36,0.95);
+  border-bottom: 1px solid rgba(13,110,138,0.3);
+  backdrop-filter: blur(16px);
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.nav-logo { width: 40px; height: 40px; background: linear-gradient(135deg, var(--teal), var(--teal-light)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.nav-name { font-size: 18px; font-weight: 800; letter-spacing: 1.5px; color: var(--teal-light); }
+.nav-links { display: flex; gap: 28px; }
+.nav-links a { color: var(--muted); text-decoration: none; font-size: 13px; font-weight: 600; transition: color 0.2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-links a.emergency { color: #ef9a9a; }
+.nav-cta {
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  color: #fff; text-decoration: none; padding: 9px 20px;
+  border-radius: 50px; font-size: 13px; font-weight: 700; transition: opacity 0.2s;
+}
+.nav-cta:hover { opacity: 0.85; }
+
+/* ── Hero ────────────────────────────────────────────────────────── */
+.hero {
+  min-height: 92vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  text-align: center; padding: 60px 20px;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(13,110,138,0.2) 0%, transparent 70%),
+    radial-gradient(ellipse 100% 100% at 50% 50%, rgba(4,22,36,1) 0%, rgba(4,22,36,0.9) 100%);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(13,110,138,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13,110,138,0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.hero-content { position: relative; z-index: 1; max-width: 800px; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(13,110,138,0.2); border: 1px solid rgba(13,110,138,0.4);
+  border-radius: 50px; padding: 6px 18px; font-size: 12px; font-weight: 600;
+  color: var(--teal-light); letter-spacing: 1px; margin-bottom: 24px;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 7vw, 70px); line-height: 1.1;
+  margin-bottom: 12px;
+}
+.hero h1 span { color: var(--teal-light); }
+.hero-hindi {
+  font-family: var(--font-hi); font-size: clamp(18px, 3vw, 26px);
+  color: var(--muted); margin-bottom: 20px;
+}
+.hero-desc { font-size: clamp(13px, 2vw, 17px); color: var(--muted); max-width: 560px; margin: 0 auto 36px; line-height: 1.7; }
+.hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-hero-primary {
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  color: #fff; padding: 14px 32px; border-radius: 50px;
+  font-size: 16px; font-weight: 700; text-decoration: none; transition: all 0.25s;
+  box-shadow: 0 8px 30px rgba(13,110,138,0.3);
+}
+.btn-hero-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(13,110,138,0.5); }
+.btn-hero-secondary {
+  background: transparent; border: 2px solid rgba(255,255,255,0.2);
+  color: var(--white); padding: 14px 32px; border-radius: 50px;
+  font-size: 16px; font-weight: 600; text-decoration: none; transition: all 0.2s;
+}
+.btn-hero-secondary:hover { border-color: rgba(255,255,255,0.5); }
+
+/* Stats row */
+.stats { display: flex; gap: 32px; justify-content: center; margin-top: 48px; flex-wrap: wrap; }
+.stat { text-align: center; }
+.stat-num { font-size: 32px; font-weight: 900; color: var(--teal-light); }
+.stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; font-family: var(--font-hi); }
+
+/* ── Section Layout ──────────────────────────────────────────────── */
+section { padding: 72px 20px; }
+.container { max-width: 1100px; margin: 0 auto; }
+.section-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; color: var(--teal-light); text-transform: uppercase; margin-bottom: 10px; }
+.section-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 42px); line-height: 1.2; margin-bottom: 14px; }
+.section-sub { font-family: var(--font-hi); font-size: 15px; color: var(--muted); margin-bottom: 40px; }
+
+/* ── Search Section ──────────────────────────────────────────────── */
+#search-section { background: rgba(4,22,36,0.6); border-top: 1px solid rgba(13,110,138,0.2); border-bottom: 1px solid rgba(13,110,138,0.2); }
+.search-wrapper {
+  background: rgba(13,110,138,0.1);
+  border: 2px solid rgba(13,110,138,0.3);
+  border-radius: var(--radius);
+  padding: 28px;
+  max-width: 700px; margin: 0 auto;
+}
+.search-wrapper h3 { font-size: 18px; font-weight: 800; margin-bottom: 6px; }
+.search-wrapper p { font-size: 13px; color: var(--muted); margin-bottom: 20px; font-family: var(--font-hi); }
+.search-box-web { display: flex; gap: 10px; }
+.search-input-web {
+  flex: 1; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px; padding: 14px 18px;
+  font-size: 15px; color: var(--white); outline: none;
+  transition: border-color 0.2s; font-family: var(--font-en);
+}
+.search-input-web:focus { border-color: var(--teal-light); }
+.search-input-web::placeholder { color: rgba(255,255,255,0.3); }
+.search-btn-web {
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  border: none; border-radius: 12px; padding: 0 24px;
+  font-size: 15px; font-weight: 700; color: #fff; cursor: pointer; transition: opacity 0.2s;
+}
+.search-btn-web:hover { opacity: 0.85; }
+.search-results-web { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+.result-item-web {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 14px 16px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; transition: all 0.2s; text-decoration: none; color: var(--white);
+}
+.result-item-web:hover { border-color: var(--teal-light); background: rgba(13,110,138,0.15); }
+.res-strip { width: 4px; height: 40px; border-radius: 2px; flex-shrink: 0; }
+.res-strip.blue { background: var(--blue-strip); }
+.res-strip.yellow { background: var(--yellow-strip); }
+.res-strip.red { background: var(--red-strip); }
+.res-strip.green { background: var(--green-strip); }
+.res-name { font-size: 15px; font-weight: 700; }
+.res-name-hi { font-family: var(--font-hi); font-size: 12px; color: var(--muted); }
+.res-meta { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 3px; }
+.res-arrow { margin-left: auto; color: var(--teal-light); }
+
+/* ── Gate Guide ──────────────────────────────────────────────────── */
+.gate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+.gate-card {
+  background: var(--card);
+  border: 1px solid rgba(13,110,138,0.25);
+  border-radius: var(--radius); overflow: hidden;
+  transition: all 0.25s;
+}
+.gate-card:hover { transform: translateY(-4px); border-color: var(--teal-light); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+.gate-img {
+  width: 100%; aspect-ratio: 16/9; object-fit: cover;
+  background: rgba(13,110,138,0.15);
+  display: flex; align-items: center; justify-content: center;
+}
+.gate-img-fallback { width: 100%; aspect-ratio: 16/9; background: rgba(13,110,138,0.12); display: flex; align-items: center; justify-content: center; font-size: 36px; }
+.gate-card-body { padding: 18px 20px; }
+.gate-number { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--teal-light); text-transform: uppercase; margin-bottom: 6px; }
+.gate-name { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
+.gate-name-hi { font-family: var(--font-hi); font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+.gate-loc { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 12px; }
+.gate-best { font-size: 12px; font-weight: 600; color: var(--gold); }
+
+/* ── Strip Guide ─────────────────────────────────────────────────── */
+.strip-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.strip-card {
+  border-radius: 16px; overflow: hidden;
+  transition: transform 0.2s;
+}
+.strip-card:hover { transform: scale(1.02); }
+.strip-card-bar { height: 8px; }
+.strip-card-bar.blue { background: var(--blue-strip); }
+.strip-card-bar.yellow { background: var(--yellow-strip); }
+.strip-card-bar.red { background: var(--red-strip); }
+.strip-card-bar.green { background: var(--green-strip); }
+.strip-card-body { padding: 18px 20px; background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-top: none; width: 256px; height: 149px; }
+.strip-category { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+.strip-category-hi { font-family: var(--font-hi); font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+.strip-depts { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.7; }
+
+/* ── Departments Grid ────────────────────────────────────────────── */
+.dept-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.dept-card-web {
+  background: var(--card); border: 1px solid rgba(13,110,138,0.2);
+  border-radius: 14px; padding: 18px 20px;
+  display: flex; align-items: flex-start; gap: 14px;
+  transition: all 0.2s; cursor: default;
+}
+.dept-card-web:hover { border-color: var(--teal-light); }
+.dept-strip-side { width: 4px; height: 50px; border-radius: 2px; flex-shrink: 0; margin-top: 4px; }
+.dept-strip-side.blue { background: var(--blue-strip); }
+.dept-strip-side.yellow { background: var(--yellow-strip); }
+.dept-strip-side.red { background: var(--red-strip); }
+.dept-strip-side.green { background: var(--green-strip); }
+.dept-card-info { flex: 1; }
+.dept-card-name { font-size: 15px; font-weight: 700; }
+.dept-card-name-hi { font-family: var(--font-hi); font-size: 12px; color: var(--muted); margin-top: 2px; }
+.dept-card-meta { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 5px; }
+
+/* ── Emergency Banner ────────────────────────────────────────────── */
+.emergency-banner {
+  background: linear-gradient(135deg, rgba(183,28,28,0.3), rgba(229,57,53,0.2));
+  border: 1px solid rgba(198,40,40,0.4);
+  border-radius: var(--radius); padding: 28px 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  flex-wrap: wrap;
+}
+.em-text h3 { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+.em-text p { font-family: var(--font-hi); font-size: 14px; color: rgba(255,255,255,0.6); }
+.em-num {
+  font-size: 36px; font-weight: 900; color: #ef9a9a;
+  font-family: var(--font-display);
+}
+.em-btn {
+  background: linear-gradient(135deg, #b71c1c, #e53935);
+  color: #fff; padding: 14px 28px; border-radius: 50px;
+  font-size: 16px; font-weight: 700; text-decoration: none; transition: all 0.2s;
+  white-space: nowrap;
+}
+.em-btn:hover { transform: scale(1.05); }
+
+/* ── Footer ──────────────────────────────────────────────────────── */
+footer {
+  background: rgba(4,22,36,0.98);
+  border-top: 1px solid rgba(13,110,138,0.2);
+  padding: 40px 20px;
+  text-align: center;
+}
+.footer-brand { font-size: 20px; font-weight: 800; color: var(--teal-light); letter-spacing: 2px; margin-bottom: 8px; }
+.footer-sub { font-family: var(--font-hi); font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+.footer-meta { font-size: 11px; color: rgba(255,255,255,0.2); }
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .stats { gap: 20px; }
+  .hero-actions { flex-direction: column; align-items: center; }
+  .emergency-banner { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Navigation ────────────────────────────────────────────────── -->
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-logo">🏥</div>
+    <div class="nav-name">SATHI</div>
+  </a>
+  <div class="nav-links">
+    <a href="#search-section">Find Dept</a>
+    <a href="#gates-section">Gates</a>
+    <a href="#strips-section">Floor Guide</a>
+    <a href="#depts-section">All Depts</a>
+    <a href="#emergency-section" class="emergency">🚨 Emergency</a>
+  </div>
+  <a href="/kiosk" class="nav-cta">Kiosk View</a>
+</nav>
+
+<!-- ── Hero ──────────────────────────────────────────────────────── -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🏥 JLN HOSPITAL AJMER</div>
+    <h1>Navigate JLN<br><span>With Confidence</span></h1>
+    <div class="hero-hindi">जेएलएन हॉस्पिटल में आसान रास्ता</div>
+    <p class="hero-desc">Find the right department, enter the right gate, follow the colored floor strips — SATHI guides you every step of the way at Jawaharlal Nehru Hospital, Ajmer.</p>
+    <div class="hero-actions">
+      <a href="#search-section" class="btn-hero-primary">🔍 Find My Department</a>
+      <a href="#gates-section" class="btn-hero-secondary">🚪 Which Gate?</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-num">5+</div><div class="stat-label">Entrance Gates</div></div>
+      <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Departments</div></div>
+      <div class="stat"><div class="stat-num">4</div><div class="stat-label">Color-Coded Strips</div></div>
+      <div class="stat"><div class="stat-num">24/7</div><div class="stat-label">Emergency</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Search ─────────────────────────────────────────────────────── -->
+<section id="search-section">
+  <div class="container">
+    <div class="search-wrapper">
+      <h3>🔍 Find Your Department</h3>
+      <p>बीमारी या विभाग का नाम लिखें और पता करें किस गेट से जाना है।</p>
+      <div class="search-box-web">
+        <input type="text" class="search-input-web" id="web-search-input"
+          placeholder="e.g. fever, bone, eye, child, heart... या बुखार, हड्डी, आंख..."
+          oninput="webSearch(this.value)">
+        <button class="search-btn-web" onclick="webSearch(document.getElementById('web-search-input').value)">Search</button>
+      </div>
+      <div class="search-results-web" id="web-results"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Gate Guide ─────────────────────────────────────────────────── -->
+<section id="gates-section">
+  <div class="container">
+    <div class="section-label">Entrance Guide</div>
+    <h2 class="section-title">Which Gate to Enter?</h2>
+    <p class="section-sub">कौन से गेट से जाएं?</p>
+    <div class="gate-grid" id="gate-grid">
+      <!-- JS populated -->
+      <div style="grid-column:1/-1; text-align:center; padding:40px; color:rgba(255,255,255,0.3);">Loading gates...</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Strip Guide ─────────────────────────────────────────────────── -->
+<section id="strips-section" style="background: rgba(13,110,138,0.04); border-top:1px solid rgba(13,110,138,0.15); border-bottom:1px solid rgba(13,110,138,0.15);">
+  <div class="container">
+    <div class="section-label">Floor Navigation</div>
+    <h2 class="section-title">Follow the Colored Floor Strips</h2>
+    <p class="section-sub">ज़मीन पर रंगीन पट्टियों का पालन करें</p>
+    <div class="strip-grid">
+      <div class="strip-card">
+        <div class="strip-card-bar blue"></div>
+        <div class="strip-card-body">
+          <div class="strip-category" style="color:#90caf9;">🔵 Blue – OPD</div>
+          <div class="strip-category-hi">नीला – ओपीडी विभाग</div>
+          <div class="strip-depts">OPD Registration, Eye OPD, ENT OPD, Geriatric Centre, Orthopaedic OPD</div>
+        </div>
+      </div>
+      <div class="strip-card">
+        <div class="strip-card-bar yellow"></div>
+        <div class="strip-card-body">
+          <div class="strip-category" style="color:#ffe082;">🟡 Yellow – Services</div>
+          <div class="strip-category-hi">पीला – सेवाएं</div>
+          <div class="strip-depts">Drug Distribution, Medical Shop, Jan Aushadhi Kendra, Canteen, Administrative Block</div>
+        </div>
+      </div>
+      <div class="strip-card">
+        <div class="strip-card-bar red"></div>
+        <div class="strip-card-body">
+          <div class="strip-category" style="color:#ef9a9a;">🔴 Red – Emergency</div>
+          <div class="strip-category-hi">लाल – आपातकाल</div>
+          <div class="strip-depts">Emergency / Casualty, Cardiology, Blood Bank, ICU, Trauma Ward</div>
+        </div>
+      </div>
+      <div class="strip-card">
+        <div class="strip-card-bar green"></div>
+        <div class="strip-card-body">
+          <div class="strip-category" style="color:#a5d6a7;">🟢 Green – Diagnostics</div>
+          <div class="strip-category-hi">हरा – जांच</div>
+          <div class="strip-depts">X-Ray, Pathology Lab, MRI / CT Scan, Ultrasound, Pediatrics / Shishu Rog</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── All Departments ────────────────────────────────────────────── -->
+<section id="depts-section">
+  <div class="container">
+    <div class="section-label">Departments Directory</div>
+    <h2 class="section-title">All Departments at a Glance</h2>
+    <p class="section-sub">सभी विभागों की पूरी सूची</p>
+    <div class="dept-grid" id="dept-grid">
+      <div style="grid-column:1/-1; text-align:center; padding:40px; color:rgba(255,255,255,0.3);">Loading...</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Emergency ──────────────────────────────────────────────────── -->
+<section id="emergency-section" style="background:rgba(183,28,28,0.06); border-top:1px solid rgba(198,40,40,0.2);">
+  <div class="container">
+    <div class="emergency-banner">
+      <div class="em-text">
+        <h3>🚨 Emergency? Immediate Help Available</h3>
+        <p>आपातकाल में गेट 2 (हॉस्पिटल रोड, पूर्व) से सीधे प्रवेश करें। 24/7 उपलब्ध।</p>
+        <p style="margin-top:6px; font-size:13px; color:rgba(255,255,255,0.4);">Gate 2 on Hospital Road (East side) leads directly to the Emergency / Casualty Ward. Open 24 hours.</p>
+      </div>
+      <div class="em-num">0145-2625000</div>
+      <a href="tel:01452625000" class="em-btn">📞 Call Emergency</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-brand">SATHI</div>
+  <div class="footer-sub">जवाहरलाल नेहरू चिकित्सालय, अजमेर — स्मार्ट नेविगेशन सिस्टम</div>
+  <div style="margin-bottom:12px; font-size:13px; color:rgba(255,255,255,0.4);">JLN Hospital Road, Ajmer, Rajasthan – 305001 &nbsp;|&nbsp; Helpline: 0145-2625000</div>
+  <div class="footer-meta">Built for Hackathon Demo · SATHI Navigation System · GEC Ajmer</div>
+</footer>
+
+<script>
+const API = (window.SATHI && window.SATHI.API_BASE) ||
+  (window.location.hostname === 'localhost' ? 'http://localhost:5000' : '');
+
+let departments = [];
+let gates = [];
+
+const gateImgMap = {
+  gate1: '3.jpeg',
+  gate2: '3.jpeg',
+  gate4: '4.jpeg',
+  gate7: '4.jpeg'
+};
+
+async function loadData() {
+  try {
+    const res = await fetch(`${API}/api/departments`);
+    const data = await res.json();
+    departments = data.departments;
+    gates = data.gates;
+    renderGates();
+    renderDeptGrid();
+  } catch (e) {
+    document.getElementById('gate-grid').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:rgba(255,255,255,0.3);padding:40px;">Unable to load data. Please ensure the backend is running.</div>';
+  }
+}
+
+function renderGates() {
+  document.getElementById('gate-grid').innerHTML = gates.map(g => {
+    const img = gateImgMap[g.id];
+    const imgHTML = img
+      ? `<img src="/assets/images/${img}" style="width:100%;aspect-ratio:16/9;object-fit:cover;" alt="${g.name}" onerror="this.style.display='none'">`
+      : `<div class="gate-img-fallback">🚪</div>`;
+    return `
+      <div class="gate-card">
+        ${imgHTML}
+        <div class="gate-card-body">
+          <div class="gate-number">Entrance</div>
+          <div class="gate-name">${g.name}</div>
+          <div class="gate-name-hi">${g.hindi}</div>
+          <div class="gate-loc">📍 ${g.location}</div>
+          <div class="gate-best">Best for: ${g.best_for.join(' · ')}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function renderDeptGrid() {
+  document.getElementById('dept-grid').innerHTML = departments.map(d => `
+    <div class="dept-card-web">
+      <div class="dept-strip-side ${d.strip_color}"></div>
+      <div class="dept-card-info">
+        <div class="dept-card-name">${d.name}</div>
+        <div class="dept-card-name-hi">${d.hindi}</div>
+        <div class="dept-card-meta">🚪 ${d.gate} &nbsp;·&nbsp; 🏢 ${d.floor}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+let searchTimer;
+function webSearch(query) {
+  clearTimeout(searchTimer);
+  if (!query.trim()) { document.getElementById('web-results').innerHTML = ''; return; }
+  searchTimer = setTimeout(() => doWebSearch(query), 350);
+}
+
+async function doWebSearch(query) {
+  try {
+    const res = await fetch(`${API}/api/search?q=${encodeURIComponent(query)}`);
+    const data = await res.json();
+    renderWebResults(data.results);
+  } catch (e) {
+    const q = query.toLowerCase();
+    const results = departments.filter(d =>
+      d.symptoms.some(s => s.includes(q) || q.includes(s)) ||
+      d.name.toLowerCase().includes(q) ||
+      (d.hindi && d.hindi.includes(q))
+    ).slice(0, 4);
+    renderWebResults(results);
+  }
+}
+
+function renderWebResults(results) {
+  const container = document.getElementById('web-results');
+  if (!results.length) {
+    container.innerHTML = '<div style="text-align:center;padding:20px;color:rgba(255,255,255,0.35);font-size:13px;">No matching departments found. Try different keywords.</div>';
+    return;
+  }
+  container.innerHTML = results.map(d => `
+    <a class="result-item-web" href="/mobile?dept=${d.id}" target="_blank">
+      <div class="res-strip ${d.strip_color}"></div>
+      <div style="flex:1">
+        <div class="res-name">${d.name}</div>
+        <div class="res-name-hi">${d.hindi}</div>
+        <div class="res-meta">🚪 ${d.gate} &nbsp;·&nbsp; 🏢 ${d.floor} &nbsp;·&nbsp; Follow ${d.strip_label}</div>
+      </div>
+      <div class="res-arrow">→</div>
+    </a>
+  `).join('');
+}
+
+loadData();
+</script>
+</body>
+</html>

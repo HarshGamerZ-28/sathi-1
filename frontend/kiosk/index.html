@@ -9,6 +9,7 @@
     href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;900&family=Tiro+Devanagari+Hindi:ital@0;1&family=Exo+2:wght@300;400;600;700;800;900&display=swap"
     rel="stylesheet">
   <script src="/assets/config.js"></script>
+  <script src="/assets/hospital-map.js"></script>
   <script src="/assets/keyboard.js"></script>
   <style>
     /* ── CSS Variables ─────────────────────────────────────────────────────── */
@@ -1587,29 +1588,22 @@
     <button class="back-btn" onclick="showScreen('home')" style="margin-top:14px;">← Back</button>
 
     <div class="content"
-      style="flex:1; display:flex; align-items:center; justify-content:center; gap:32px; padding:20px 40px;">
-      <div style="flex:1; max-width:600px;">
-        <img src="/assets/images/map.jpg" alt="Hospital Map"
-          style="width:100%; border-radius:16px; border:2px solid rgba(13,110,138,0.4);"
-          onerror="this.style.display='none'; document.getElementById('map-fallback').style.display='flex'">
-        <div id="map-fallback"
-          style="display:none; width:100%; aspect-ratio:16/10; background:rgba(13,110,138,0.15); border-radius:16px; border:2px solid rgba(13,110,138,0.3); align-items:center; justify-content:center; flex-direction:column; gap:12px; font-size:14px; color:rgba(255,255,255,0.4);">
-          <span style="font-size:48px;">🗺️</span>
-          <span>Hospital Map (जेपीजी फ़ाइल जोड़ें)</span>
-          <span style="font-size:11px;">Add map.jpg to /frontend/assets/images/</span>
-        </div>
+      style="flex:1; display:flex; flex-direction:column; padding:16px 28px 20px; gap:12px; overflow:hidden;">
+      <div style="font-size:13px; color:rgba(255,255,255,0.45); text-align:center;">
+        🗺️ Touch a department on the map to highlight its path — or search first and the path auto-appears
       </div>
-
-      <div style="display:flex; flex-direction:column; align-items:center; gap:16px;">
-        <div class="qr-block" id="map-qr-block" style="width:220px;">
-          <img id="map-qr-img" src="" alt="QR Code" style="width:180px;height:180px;"
+      <div id="kiosk-map-container" style="flex:1; border-radius:16px; border:2px solid rgba(13,110,138,0.35);
+               overflow:hidden; background:#041624; min-height:0;">
+      </div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <div class="qr-block" id="map-qr-block" style="width:180px; padding:12px;">
+          <img id="map-qr-img" src="" alt="QR Code" style="width:140px;height:140px;"
             onerror="this.parentElement.style.display='none'">
-          <div class="qr-label">📱 Scan for Mobile Map</div>
-          <div style="font-size:10px; color:#555; font-family: var(--font-hi);">मोबाइल पर QR स्कैन करें</div>
+          <div class="qr-label" style="font-size:10px;">📱 Scan for Mobile</div>
         </div>
-        <div style="text-align:center; font-size:12px; color:rgba(255,255,255,0.4); max-width:200px;">
-          अपने फोन से QR स्कैन करके पूरा नक्शा देखें
-        </div>
+        <button class="btn btn-outline" onclick="kioskMapClear()" style="padding:10px 20px; font-size:13px;">
+          🔄 Clear Path
+        </button>
       </div>
     </div>
   </div>
@@ -1874,6 +1868,9 @@
       const el = document.getElementById(`screen-${name}`);
       if (el) el.classList.add('active');
 
+      if (name === 'map') {
+        setTimeout(initKioskMap, 80);
+      }
       if (name === 'search') {
         const t = translations[currentLang];
         const qs = document.getElementById('quick-symptoms');
@@ -2038,6 +2035,7 @@
 
       // Load department image
       loadDeptImage(dept);
+      kioskMapShowPath(deptId);
 
       // Load QR
       loadDeptQR(dept.id);
@@ -2215,6 +2213,30 @@
         // Use base URL QR
         document.getElementById('map-qr-img').src = data.qr_base64;
       } catch (e) { }
+    }
+
+    // ── Kiosk Interactive Map ─────────────────────────────────────────────────
+    let _kioskMap = null;
+
+    function initKioskMap() {
+      const container = document.getElementById('kiosk-map-container');
+      if (!container || !window.HospitalMap) return;
+      if (_kioskMap) return;
+      _kioskMap = new HospitalMap(container, {
+        darkMode: true,
+        onDeptClick: (deptId) => {
+          showDept(deptId, 'map');
+        }
+      });
+    }
+
+    function kioskMapShowPath(deptId) {
+      if (!_kioskMap) initKioskMap();
+      if (_kioskMap) _kioskMap.showPath(deptId);
+    }
+
+    function kioskMapClear() {
+      if (_kioskMap) _kioskMap.clearPath();
     }
   </script>
 </body>
