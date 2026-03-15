@@ -20,7 +20,7 @@ CORS(app, origins=[
     'http://localhost:5000',
     'http://127.0.0.1:5000',
     os.environ.get('FRONTEND_URL', ''),
-    'https://sathi-eight.vercel.app',
+    'https://sathi-sable.vercel.app',
 ])
 
 # Load departments data
