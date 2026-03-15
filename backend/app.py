@@ -9,6 +9,7 @@ from datetime import datetime
 import random
 import string
 from dotenv import load_dotenv
+import google.generativeai as genai
 
 # Load .env for local development (no-op in production)
 load_dotenv()

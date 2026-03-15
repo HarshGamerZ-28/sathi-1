@@ -1905,12 +1905,86 @@
     }
 
     async function doSearch(query) {
+      const container = document.getElementById('search-results');
+
       try {
-        const res = await fetch(`${API}/api/search?q=${encodeURIComponent(query)}&lang=${currentLang}`);
+        // Try AI first — understands natural language, Hindi, Marwari, broken sentences
+        const res = await fetch(`${API}/api/ai-assist`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: query, lang: currentLang })
+        });
         const data = await res.json();
-        renderResults(data.results);
+
+        // If AI found a department, show AI result + regular results below
+        if (data.primary_dept) {
+          const d = data.primary_dept;
+          const colors = { blue: '#1565c0', yellow: '#f9a825', red: '#c62828', green: '#2e7d32' };
+          const stripColor = colors[d.strip_color] || '#1a9ab8';
+
+          // AI explanation card on top
+          const aiCard = `
+            <div style="background:rgba(13,110,138,0.12); border:1px solid rgba(13,110,138,0.35);
+                        border-radius:14px; padding:14px 18px; margin-bottom:4px;">
+              <div style="font-size:11px; color:var(--teal-light); font-weight:700;
+                          letter-spacing:1px; margin-bottom:8px;">🤖 AI SUGGESTION</div>
+              <div style="font-family:var(--font-hi); font-size:14px; line-height:1.7;
+                          color:rgba(255,255,255,0.85);">${data.message}</div>
+            </div>`;
+
+          // Primary dept card (highlighted)
+          const primaryCard = `
+            <div class="result-card" onclick="showDept('${d.id}','search')"
+              style="border-color:${stripColor}; border-width:2px;">
+              <div class="result-strip ${d.strip_color}"></div>
+              <div class="result-info">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <div class="result-name">${d.name}</div>
+                  <span style="background:${stripColor}; color:#fff; font-size:10px;
+                               font-weight:800; padding:2px 8px; border-radius:50px;
+                               letter-spacing:1px;">BEST MATCH</span>
+                </div>
+                <div class="result-name-hi">${d.hindi}</div>
+                <div class="result-meta">🚪 ${d.gate} &nbsp;|&nbsp; 🏢 ${d.floor}</div>
+              </div>
+              <div class="result-arrow">›</div>
+            </div>`;
+
+          // Also fetch regular keyword results for "other options"
+          let otherCards = '';
+          try {
+            const r2 = await fetch(`${API}/api/search?q=${encodeURIComponent(query)}&lang=${currentLang}`);
+            const d2 = await r2.json();
+            // Filter out the primary dept already shown
+            const others = d2.results.filter(x => x.id !== d.id).slice(0, 3);
+            if (others.length) {
+              otherCards = `
+                <div style="font-size:11px; color:rgba(255,255,255,0.35);
+                            padding: 8px 4px 4px; letter-spacing:1px;">OTHER OPTIONS</div>
+                ${others.map(x => `
+                  <div class="result-card" onclick="showDept('${x.id}','search')">
+                    <div class="result-strip ${x.strip_color}"></div>
+                    <div class="result-info">
+                      <div class="result-name">${x.name}</div>
+                      <div class="result-name-hi">${x.hindi}</div>
+                      <div class="result-meta">🚪 ${x.gate} &nbsp;|&nbsp; 🏢 ${x.floor}</div>
+                    </div>
+                    <div class="result-arrow">›</div>
+                  </div>`).join('')}`;
+            }
+          } catch (e) { }
+
+          container.innerHTML = aiCard + primaryCard + otherCards;
+
+        } else {
+          // AI couldn't identify — fall back to keyword search
+          const r2 = await fetch(`${API}/api/search?q=${encodeURIComponent(query)}&lang=${currentLang}`);
+          const d2 = await r2.json();
+          renderResults(d2.results);
+        }
+
       } catch (e) {
-        // Client-side fallback search
+        // Full fallback — no network at all, use client-side filter
         const q = query.toLowerCase();
         const results = departments.filter(d =>
           d.symptoms.some(s => s.includes(q) || q.includes(s)) ||
@@ -1920,6 +1994,7 @@
         ).slice(0, 5);
         renderResults(results);
       }
+
       document.getElementById('search-loading').style.display = 'none';
     }
 
@@ -1930,16 +2005,16 @@
         return;
       }
       container.innerHTML = results.map(d => `
-    <div class="result-card" onclick="showDept('${d.id}', 'search')">
-      <div class="result-strip ${d.strip_color}"></div>
-      <div class="result-info">
-        <div class="result-name">${d.name}</div>
-        <div class="result-name-hi">${d.hindi}</div>
-        <div class="result-meta">🚪 ${d.gate} &nbsp;|&nbsp; 🏢 ${d.floor}</div>
-      </div>
-      <div class="result-arrow">›</div>
-    </div>
-  `).join('');
+        <div class="result-card" onclick="showDept('${d.id}', 'search')">
+          <div class="result-strip ${d.strip_color}"></div>
+          <div class="result-info">
+            <div class="result-name">${d.name}</div>
+            <div class="result-name-hi">${d.hindi}</div>
+            <div class="result-meta">🚪 ${d.gate} &nbsp;|&nbsp; 🏢 ${d.floor}</div>
+          </div>
+          <div class="result-arrow">›</div>
+        </div>
+      `).join('');
     }
 
     // ══════════════════════════════════════════════════════════
