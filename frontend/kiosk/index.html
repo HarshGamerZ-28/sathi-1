@@ -1906,9 +1906,12 @@
 
     async function doSearch(query) {
       const container = document.getElementById('search-results');
+      const loading = document.getElementById('search-loading');
+      loading.style.display = 'block'; // Show loader immediately
+      container.innerHTML = ''; // Clear previous results
 
       try {
-        // Try AI first — understands natural language, Hindi, Marwari, broken sentences
+        // 1. Fetch AI results
         const res = await fetch(`${API}/api/ai-assist`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -1916,86 +1919,72 @@
         });
         const data = await res.json();
 
-        // If AI found a department, show AI result + regular results below
         if (data.primary_dept) {
           const d = data.primary_dept;
           const colors = { blue: '#1565c0', yellow: '#f9a825', red: '#c62828', green: '#2e7d32' };
           const stripColor = colors[d.strip_color] || '#1a9ab8';
 
-          // AI explanation card on top
+          // AI Text Card
           const aiCard = `
-            <div style="background:rgba(13,110,138,0.12); border:1px solid rgba(13,110,138,0.35);
-                        border-radius:14px; padding:14px 18px; margin-bottom:4px;">
-              <div style="font-size:11px; color:var(--teal-light); font-weight:700;
-                          letter-spacing:1px; margin-bottom:8px;">🤖 AI SUGGESTION</div>
-              <div style="font-family:var(--font-hi); font-size:14px; line-height:1.7;
-                          color:rgba(255,255,255,0.85);">${data.message}</div>
+            <div class="ai-suggestion-box" style="background:rgba(13,110,138,0.12); border:1px solid rgba(13,110,138,0.35); border-radius:14px; padding:14px 18px; margin-bottom:12px;">
+              <div style="font-size:11px; color:var(--teal-light); font-weight:700; letter-spacing:1px; margin-bottom:8px;">🤖 SATHI AI GUIDANCE</div>
+              <div style="font-family:var(--font-hi); font-size:15px; line-height:1.6; color:rgba(255,255,255,0.9);">${data.message}</div>
             </div>`;
 
-          // Primary dept card (highlighted)
+          // Highlighted Primary Card
           const primaryCard = `
-            <div class="result-card" onclick="showDept('${d.id}','search')"
-              style="border-color:${stripColor}; border-width:2px;">
+            <div class="result-card primary-match" onclick="showDept('${d.id}','search')" style="border: 2px solid ${stripColor}; transform: scale(1.02);">
               <div class="result-strip ${d.strip_color}"></div>
               <div class="result-info">
                 <div style="display:flex; align-items:center; gap:8px;">
-                  <div class="result-name">${d.name}</div>
-                  <span style="background:${stripColor}; color:#fff; font-size:10px;
-                               font-weight:800; padding:2px 8px; border-radius:50px;
-                               letter-spacing:1px;">BEST MATCH</span>
+                  <div class="result-name" style="font-weight:700;">${d.name}</div>
+                  <span style="background:${stripColor}; color:#fff; font-size:9px; font-weight:900; padding:2px 8px; border-radius:4px;">RECOMMENDED</span>
                 </div>
                 <div class="result-name-hi">${d.hindi}</div>
-                <div class="result-meta">🚪 ${d.gate} &nbsp;|&nbsp; 🏢 ${d.floor}</div>
+                <div class="result-meta">🏢 ${d.building} | Floor: ${d.floor} | Gate: ${d.gate}</div>
               </div>
               <div class="result-arrow">›</div>
             </div>`;
 
-          // Also fetch regular keyword results for "other options"
+          // 2. Fetch "Others" via Keyword Search
           let otherCards = '';
           try {
             const r2 = await fetch(`${API}/api/search?q=${encodeURIComponent(query)}&lang=${currentLang}`);
             const d2 = await r2.json();
-            // Filter out the primary dept already shown
-            const others = d2.results.filter(x => x.id !== d.id).slice(0, 3);
-            if (others.length) {
-              otherCards = `
-                <div style="font-size:11px; color:rgba(255,255,255,0.35);
-                            padding: 8px 4px 4px; letter-spacing:1px;">OTHER OPTIONS</div>
-                ${others.map(x => `
-                  <div class="result-card" onclick="showDept('${x.id}','search')">
-                    <div class="result-strip ${x.strip_color}"></div>
-                    <div class="result-info">
-                      <div class="result-name">${x.name}</div>
-                      <div class="result-name-hi">${x.hindi}</div>
-                      <div class="result-meta">🚪 ${x.gate} &nbsp;|&nbsp; 🏢 ${x.floor}</div>
-                    </div>
-                    <div class="result-arrow">›</div>
-                  </div>`).join('')}`;
+            const others = d2.results.filter(x => x.id !== d.id).slice(0, 2);
+
+            if (others.length > 0) {
+              otherCards = `<div style="font-size:11px; color:rgba(255,255,255,0.3); padding:15px 5px 5px; letter-spacing:1px;">RELATED DEPARTMENTS</div>` +
+                others.map(x => createResultCardHTML(x)).join('');
             }
-          } catch (e) { }
+          } catch (e) { console.error("Keyword fallback failed", e); }
 
           container.innerHTML = aiCard + primaryCard + otherCards;
 
         } else {
-          // AI couldn't identify — fall back to keyword search
+          // Fallback if AI has no primary_dept
           const r2 = await fetch(`${API}/api/search?q=${encodeURIComponent(query)}&lang=${currentLang}`);
           const d2 = await r2.json();
-          renderResults(d2.results);
+          if (d2.results.length > 0) renderResults(d2.results);
+          else showNoResults();
         }
 
       } catch (e) {
-        // Full fallback — no network at all, use client-side filter
-        const q = query.toLowerCase();
-        const results = departments.filter(d =>
-          d.symptoms.some(s => s.includes(q) || q.includes(s)) ||
-          d.name.toLowerCase().includes(q) ||
-          (d.hindi && d.hindi.includes(q)) ||
-          (d.symptoms_hindi && d.symptoms_hindi.some(s => s.includes(q)))
-        ).slice(0, 5);
-        renderResults(results);
+        console.error("Critical Search Failure", e);
+        // Offline / Local Filter Fallback
+        localFilterSearch(query);
+      } finally {
+        loading.style.display = 'none';
       }
+    }
 
-      document.getElementById('search-loading').style.display = 'none';
+    // Helper to keep code clean
+    function showNoResults() {
+      document.getElementById('search-results').innerHTML = `
+        <div style="text-align:center; padding:40px 20px; color:rgba(255,255,255,0.4);">
+          <div style="font-size:40px; margin-bottom:10px;">🔍</div>
+          <p>No results found. Try shorter keywords or visit the Help Desk.</p>
+        </div>`;
     }
 
     function renderResults(results) {

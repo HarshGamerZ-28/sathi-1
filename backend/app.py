@@ -192,6 +192,82 @@ def get_gates():
     return jsonify({'gates': GATES})
 
 
+@app.route('/api/ai-assist', methods=['POST'])
+def ai_assist():
+    try:
+        data = request.get_json(silent=True) or {}
+        user_message = data.get('message', '').strip()
+        lang = data.get('lang', 'hi')
+
+        if not user_message:
+            return jsonify({'error': 'No message provided'}), 400
+
+        # Construct the context
+        dept_list = '\n'.join([
+            f"- ID: {d['id']} | Name: {d['name']} ({d['hindi']}) | Symptoms: {', '.join(d.get('symptoms', [])[:4])}"
+            for d in DEPARTMENTS
+        ])
+
+        lang_instruction = {
+            'hi': 'Respond in simple Hindi (हिंदी में जवाब दें). Use easy words a rural patient understands.',
+            'mr': 'Respond in Marwari/Rajasthani Hindi mix. Keep it very simple.',
+            'en': 'Respond in simple English.'
+        }.get(lang, 'Respond in Hindi.')
+
+        prompt = f"""You are SATHI, the AI assistant for JLN Hospital, Ajmer.
+Guide the patient based on these departments:
+{dept_list}
+
+Rules:
+1. Identify the most relevant department. You MUST only use an 'id' from the provided list.
+2. If no match is found, return "none" for the primary id.
+3. If it sounds like an emergency (accident, chest pain, unconscious, serious injury), always recommend Emergency first
+4. {lang_instruction}
+5. Keep your response SHORT — 2-3 sentences max
+6. Always end your response with a JSON block on a new line in this exact format:
+DEPT_JSON:{{"primary": "dept_id_here", "secondary": null, "is_emergency": false}}
+
+Instructions:
+- Use simple {lang} for the explanation.
+- For serious injuries/chest pain, prioritize 'emergency'.
+- Response must end with DEPT_JSON:{{...}}
+
+Patient says: {user_message}"""
+
+        genai.configure(api_key=os.environ.get('GEMINI_API_KEY'))
+        model = genai.GenerativeModel('gemini-1.5-flash')
+        
+        # Use a safety setting to ensure it doesn't block medical-related queries
+        response = model.generate_content(prompt)
+        response_text = response.text
+
+        # Robust Parsing
+        clean_text = response_text
+        dept_data = {'primary': None, 'is_emergency': False}
+
+        if 'DEPT_JSON:' in response_text:
+            parts = response_text.split('DEPT_JSON:')
+            clean_text = parts[0].strip()
+            try:
+                # Remove common AI markdown artifacts
+                json_str = parts[1].strip().strip('`').replace('json', '').strip()
+                dept_data = json.loads(json_str)
+            except:
+                pass
+
+        # Match with actual objects
+        primary_dept = next((d for d in DEPARTMENTS if d['id'] == dept_data.get('primary')), None)
+
+        return jsonify({
+            'message': clean_text,
+            'primary_dept': primary_dept,
+            'is_emergency': dept_data.get('is_emergency', False) or (primary_dept and primary_dept['id'] == 'emergency')
+        })
+
+    except Exception as e:
+        print(f"AI Assist Error: {e}")
+        return jsonify({'message': 'System busy. Please try search.', 'error': str(e)}), 500
+
 # ── Health check ──────────────────────────────────────────────────────────────
 
 @app.route('/api/health')
