@@ -95,18 +95,14 @@ class HospitalMap {
     // These are the "roads" inside the campus
     get CORRIDORS() {
         return [
-            // Horizontal main corridor (east-west through OPD)
-            { x1: 72, y1: 362, x2: 818, y2: 362 },
-            // Horizontal upper corridor (diagnostic level)
-            { x1: 247, y1: 177, x2: 818, y2: 177 },
-            // Vertical center spine
-            { x1: 431, y1: 32, x2: 431, y2: 550 },
-            // Vertical right spine (emergency side)
-            { x1: 754, y1: 32, x2: 754, y2: 550 },
-            // Vertical left spine (admin side)
-            { x1: 175, y1: 32, x2: 175, y2: 550 },
-            // Connector: upper right → lower right
-            { x1: 754, y1: 177, x2: 818, y2: 177 },
+            // Main Horizontal Road (Lohagal to Emergency)
+            { x1: 72, y1: 320, x2: 800, y2: 320 },
+            // Vertical path to OPD/Ortho
+            { x1: 250, y1: 150, x2: 250, y2: 320 },
+            // Vertical path to Admin/Child
+            { x1: 530, y1: 320, x2: 530, y2: 440 },
+            // Connection to Cardio Gate
+            { x1: 350, y1: 320, x2: 350, y2: 550 }
         ];
     }
 
@@ -115,7 +111,7 @@ class HospitalMap {
             { id: 'gate1', label: 'Gate 1\nMain Gate', x: 450, y: 320, side: 'top', recommended: true },
             { id: 'gate2', label: 'Gate 2\nEmergency', x: 650, y: 320, side: 'top' },
             { id: 'gate3', label: 'Gate 3\nCardio Gate', x: 350, y: 550, side: 'bottom' },
-            { id: 'gate4', label: 'Gate 4\nOPD Gate', x: 72, y: 320, side: 'right' },
+            { id: 'gate4', label: 'Gate 4\nOPD Gate', x: 72, y: 320, side: 'left' },
         ];
     }
 
