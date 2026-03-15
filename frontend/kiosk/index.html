@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SATHI – JLN Hospital Ajmer</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700;900&family=Tiro+Devanagari+Hindi:ital@0;1&family=Exo+2:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="/assets/config.js"></script>
+<script src="/assets/keyboard.js"></script>
+<style>
+/* ── CSS Variables ─────────────────────────────────────────────────────── */
+:root {
+  --navy: #0a2342;
+  --teal: #0d6e8a;
+  --teal-light: #1a9ab8;
+  --gold: #e8a020;
+  --gold-light: #f5c842;
+  --white: #f8fafc;
+  --bg: #041624;
+  --card: rgba(10,35,66,0.85);
+  --glass: rgba(13,110,138,0.15);
+  --red: #e63946;
+  --green: #2dc653;
+  --blue-strip: #1565c0;
+  --yellow-strip: #f9a825;
+  --red-strip: #c62828;
+  --green-strip: #2e7d32;
+  --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  --radius: 20px;
+  --font-en: 'Exo 2', sans-serif;
+  --font-hi: 'Noto Sans Devanagari', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: var(--font-en);
+  background: var(--bg);
+  color: var(--white);
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
+  touch-action: manipulation;
+}
+
+/* ── Animated background ─────────────────────────────────────────────── */
+.bg-anim {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(13,110,138,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 80% 70%, rgba(232,160,32,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 100% 80% at 50% 50%, rgba(4,22,36,1) 0%, rgba(4,22,36,0.95) 100%);
+}
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(13,110,138,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13,110,138,0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ── Screen Manager ───────────────────────────────────────────────────── */
+.screen { position: absolute; inset: 0; z-index: 10; display: none; flex-direction: column; }
+.screen.active { display: flex; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 28px;
+  background: rgba(4,22,36,0.9);
+  border-bottom: 2px solid rgba(13,110,138,0.4);
+  backdrop-filter: blur(12px);
+  flex-shrink: 0;
+}
+.header-logo { display: flex; align-items: center; gap: 14px; }
+.logo-icon {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+}
+.logo-text h1 { font-size: 15px; font-weight: 800; letter-spacing: 2px; color: var(--teal-light); text-transform: uppercase; }
+.logo-text p { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+.header-center { text-align: center; }
+.header-center .hospital-name { font-family: var(--font-hi); font-size: 17px; font-weight: 700; color: var(--white); }
+.header-center .hospital-sub { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.header-right { display: flex; align-items: center; gap: 12px; }
+.lang-pill {
+  background: rgba(13,110,138,0.25);
+  border: 1px solid rgba(13,110,138,0.5);
+  border-radius: 50px; padding: 6px 14px;
+  font-size: 12px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s;
+}
+.lang-pill:hover, .lang-pill.active { background: var(--teal); border-color: var(--teal); }
+.time-display { font-size: 13px; color: var(--gold); font-weight: 600; }
+
+/* ── SOS Button ──────────────────────────────────────────────────────────── */
+.sos-btn {
+  position: fixed; bottom: 28px; right: 28px; z-index: 999;
+  width: 88px; height: 88px;
+  background: linear-gradient(135deg, #c62828, #e53935);
+  border: 4px solid rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 0 30px rgba(198,40,40,0.6), 0 4px 20px rgba(0,0,0,0.5);
+  animation: sosPulse 2.5s infinite;
+  gap: 3px;
+}
+.sos-btn span:first-child { font-size: 24px; }
+.sos-btn span:last-child { font-size: 10px; font-weight: 800; letter-spacing: 2px; color: #fff; }
+@keyframes sosPulse {
+  0%, 100% { box-shadow: 0 0 30px rgba(198,40,40,0.6), 0 4px 20px rgba(0,0,0,0.5); }
+  50% { box-shadow: 0 0 50px rgba(198,40,40,0.9), 0 4px 20px rgba(0,0,0,0.5); }
+}
+
+/* ── Home Screen ─────────────────────────────────────────────────────────── */
+#screen-home .content {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 20px; gap: 28px;
+}
+.welcome-text { text-align: center; }
+.welcome-text .greeting {
+  font-family: var(--font-hi);
+  font-size: clamp(22px, 4vw, 36px);
+  font-weight: 700; color: var(--white);
+  margin-bottom: 8px;
+}
+.welcome-text .sub {
+  font-size: clamp(12px, 2vw, 16px);
+  color: rgba(255,255,255,0.55);
+}
+
+.main-options {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 18px; width: 100%; max-width: 900px;
+}
+.main-card {
+  background: var(--card);
+  border: 1px solid rgba(13,110,138,0.3);
+  border-radius: var(--radius);
+  padding: 28px 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  cursor: pointer;
+  transition: all 0.25s;
+  backdrop-filter: blur(10px);
+  position: relative; overflow: hidden;
+}
+.main-card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(13,110,138,0.1), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.main-card:hover, .main-card:active { transform: translateY(-4px); border-color: var(--teal-light); box-shadow: var(--shadow); }
+.main-card:hover::before, .main-card:active::before { opacity: 1; }
+.card-icon {
+  width: 70px; height: 70px;
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  border-radius: 18px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px;
+}
+.main-card.emergency-card .card-icon { background: linear-gradient(135deg, #b71c1c, #e53935); }
+.main-card.emergency-card { border-color: rgba(198,40,40,0.4); }
+.card-title { font-size: clamp(13px, 2vw, 17px); font-weight: 700; text-align: center; }
+.card-title-hi { font-family: var(--font-hi); font-size: clamp(12px, 1.8vw, 15px); color: rgba(255,255,255,0.6); text-align: center; margin-top: 3px; }
+
+/* Strip guide */
+.strip-guide {
+  display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+  max-width: 900px; width: 100%;
+}
+.strip-item {
+  display: flex; align-items: center; gap: 9px;
+  background: rgba(255,255,255,0.06); border-radius: 50px;
+  padding: 8px 16px; border: 1px solid rgba(255,255,255,0.1);
+}
+.strip-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+.strip-dot.blue { background: var(--blue-strip); }
+.strip-dot.yellow { background: var(--yellow-strip); }
+.strip-dot.red { background: var(--red-strip); }
+.strip-dot.green { background: var(--green-strip); }
+.strip-text { font-size: 12px; font-weight: 600; }
+
+/* ── Search Screen ───────────────────────────────────────────────────────── */
+#screen-search .content { flex: 1; display: flex; flex-direction: column; padding: 24px 32px; gap: 20px; overflow: hidden; }
+.screen-title { font-size: clamp(18px, 3vw, 26px); font-weight: 800; color: var(--teal-light); display: flex; align-items: center; gap: 10px; }
+.screen-title-hi { font-family: var(--font-hi); font-size: 16px; color: rgba(255,255,255,0.55); margin-left: 8px; font-weight: 400; }
+
+.search-box {
+  display: flex; gap: 12px;
+}
+.search-input {
+  flex: 1;
+  background: rgba(13,110,138,0.15);
+  border: 2px solid rgba(13,110,138,0.4);
+  border-radius: 14px;
+  padding: 16px 22px;
+  font-size: 18px; font-family: var(--font-en); color: var(--white);
+  outline: none; transition: border-color 0.2s;
+}
+.search-input:focus { border-color: var(--teal-light); }
+.search-input::placeholder { color: rgba(255,255,255,0.35); }
+.search-btn {
+  background: linear-gradient(135deg, var(--teal), var(--teal-light));
+  border: none; border-radius: 14px;
+  padding: 0 28px; font-size: 16px; font-weight: 700;
+  color: #fff; cursor: pointer; transition: opacity 0.2s;
+}
+.search-btn:hover { opacity: 0.85; }
+
+/* Quick symptom pills */
+.quick-symptoms { display: flex; flex-wrap: wrap; gap: 10px; }
+.symptom-pill {
+  background: rgba(13,110,138,0.2);
+  border: 1px solid rgba(13,110,138,0.4);
+  border-radius: 50px; padding: 8px 18px;
+  font-size: 13px; cursor: pointer; transition: all 0.2s;
+  font-family: var(--font-hi);
+}
+.symptom-pill:hover, .symptom-pill:active { background: var(--teal); border-color: var(--teal); }
+
+/* Results */
+.results-area { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+.result-card {
+  background: var(--card);
+  border: 1px solid rgba(13,110,138,0.3);
+  border-radius: 16px; padding: 18px 22px;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 18px;
+}
+.result-card:hover, .result-card:active { border-color: var(--teal-light); transform: translateX(4px); }
+.result-strip { width: 6px; height: 60px; border-radius: 3px; flex-shrink: 0; }
+.result-strip.blue { background: var(--blue-strip); }
+.result-strip.yellow { background: var(--yellow-strip); }
+.result-strip.red { background: var(--red-strip); }
+.result-strip.green { background: var(--green-strip); }
+.result-info { flex: 1; }
+.result-name { font-size: 18px; font-weight: 700; }
+.result-name-hi { font-family: var(--font-hi); font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 3px; }
+.result-meta { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 5px; }
+.result-arrow { font-size: 24px; color: var(--teal-light); }
+
+/* ── Dept Detail Screen ────────────────────────────────────────────────────── */
+#screen-detail .content { flex: 1; display: flex; gap: 24px; padding: 24px 32px; overflow: hidden; }
+.detail-left { flex: 1; display: flex; flex-direction: column; gap: 18px; overflow-y: auto; }
+.detail-right { width: 300px; display: flex; flex-direction: column; gap: 16px; flex-shrink: 0; }
+
+.dept-name { font-size: clamp(20px, 3.5vw, 30px); font-weight: 800; }
+.dept-name-hi { font-family: var(--font-hi); font-size: 18px; color: rgba(255,255,255,0.65); margin-top: 4px; }
+
+.info-block {
+  background: var(--card); border: 1px solid rgba(13,110,138,0.25);
+  border-radius: 14px; padding: 18px 20px;
+}
+.info-row { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.info-row:last-child { border-bottom: none; }
+.info-icon { font-size: 20px; flex-shrink: 0; width: 28px; text-align: center; margin-top: 2px; }
+.info-content { flex: 1; }
+.info-label { font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; }
+.info-value { font-size: 15px; font-weight: 600; margin-top: 3px; }
+.info-value-hi { font-family: var(--font-hi); font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+.strip-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 16px; border-radius: 50px;
+  font-size: 13px; font-weight: 700;
+}
+.strip-badge.blue { background: rgba(21,101,192,0.25); border: 1px solid var(--blue-strip); color: #90caf9; }
+.strip-badge.yellow { background: rgba(249,168,37,0.2); border: 1px solid var(--yellow-strip); color: #ffe082; }
+.strip-badge.red { background: rgba(198,40,40,0.25); border: 1px solid var(--red-strip); color: #ef9a9a; }
+.strip-badge.green { background: rgba(46,125,50,0.25); border: 1px solid var(--green-strip); color: #a5d6a7; }
+
+.dept-image {
+  width: 100%; border-radius: 14px; overflow: hidden;
+  background: rgba(13,110,138,0.15); aspect-ratio: 16/10;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px; border: 1px solid rgba(13,110,138,0.3);
+}
+.dept-image img { width: 100%; height: 100%; object-fit: cover; }
+
+.qr-block {
+  background: white; border-radius: 14px; padding: 16px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.qr-block img { width: 180px; height: 180px; }
+.qr-label { font-size: 11px; font-weight: 700; color: var(--navy); text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+
+.action-btns { display: flex; flex-direction: column; gap: 10px; }
+.btn {
+  padding: 16px; border: none; border-radius: 14px;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 9px;
+}
+.btn-primary { background: linear-gradient(135deg, var(--teal), var(--teal-light)); color: #fff; }
+.btn-gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--navy); }
+.btn-outline { background: transparent; border: 2px solid rgba(255,255,255,0.2); color: var(--white); }
+.btn:hover { opacity: 0.85; transform: translateY(-2px); }
+
+/* ── Language Screen ─────────────────────────────────────────────────────── */
+#screen-lang .content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 20px; }
+.lang-cards { display: flex; gap: 22px; }
+.lang-card {
+  width: 220px; padding: 36px 24px;
+  background: var(--card); border: 2px solid rgba(13,110,138,0.3);
+  border-radius: 20px; text-align: center; cursor: pointer;
+  transition: all 0.25s; display: flex; flex-direction: column; align-items: center; gap: 14px;
+}
+.lang-card:hover, .lang-card.active-lang { border-color: var(--teal-light); background: rgba(13,110,138,0.25); transform: translateY(-4px); }
+.lang-flag { font-size: 48px; }
+.lang-name { font-size: 24px; font-weight: 700; }
+.lang-native { font-family: var(--font-hi); font-size: 20px; color: rgba(255,255,255,0.7); }
+
+/* ── Emergency Screen ───────────────────────────────────────────────────── */
+#screen-emergency .content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 20px; }
+.sos-big {
+  width: 160px; height: 160px;
+  background: linear-gradient(135deg, #b71c1c, #e53935);
+  border-radius: 50%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-size: 56px; animation: sosPulse 2s infinite;
+  box-shadow: 0 0 60px rgba(198,40,40,0.7);
+  border: 4px solid rgba(255,255,255,0.2);
+}
+.sos-number { font-size: 36px; font-weight: 900; color: var(--red); }
+.sos-desc { font-size: 18px; color: rgba(255,255,255,0.7); text-align: center; max-width: 400px; font-family: var(--font-hi); }
+
+/* ── Slip Modal ──────────────────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 500;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+  display: none; align-items: center; justify-content: center;
+}
+.modal-overlay.open { display: flex; animation: fadeIn 0.3s ease; }
+.slip-modal {
+  background: white; color: #000; border-radius: 20px;
+  padding: 28px; width: 400px; max-width: 95vw;
+  font-family: 'Courier New', monospace;
+}
+.slip-header { text-align: center; border-bottom: 2px dashed #ccc; padding-bottom: 14px; margin-bottom: 14px; }
+.slip-header h2 { font-size: 14px; font-weight: 700; letter-spacing: 1px; }
+.slip-header h3 { font-family: var(--font-hi); font-size: 12px; color: #555; }
+.slip-no { font-size: 28px; font-weight: 900; color: var(--navy); text-align: center; margin: 8px 0; letter-spacing: 4px; }
+.slip-row { display: flex; justify-content: space-between; margin: 6px 0; font-size: 12px; }
+.slip-row label { color: #555; font-weight: 600; }
+.slip-row span { font-weight: 700; max-width: 200px; text-align: right; }
+.slip-strip { display: flex; align-items: center; gap: 8px; margin: 12px 0; padding: 8px 12px; border-radius: 8px; }
+.slip-strip.blue { background: #e3f2fd; }
+.slip-strip.yellow { background: #fff8e1; }
+.slip-strip.red { background: #ffebee; }
+.slip-strip.green { background: #e8f5e9; }
+.slip-strip-dot { width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0; }
+.slip-strip-dot.blue { background: var(--blue-strip); }
+.slip-strip-dot.yellow { background: var(--yellow-strip); }
+.slip-strip-dot.red { background: var(--red-strip); }
+.slip-strip-dot.green { background: var(--green-strip); }
+.slip-strip-text { font-size: 11px; font-weight: 700; }
+.slip-footer { border-top: 2px dashed #ccc; padding-top: 10px; margin-top: 14px; text-align: center; font-size: 10px; color: #666; }
+.slip-actions { display: flex; gap: 12px; margin-top: 16px; }
+.slip-actions button { flex: 1; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.slip-print-btn { background: var(--navy); color: #fff; }
+.slip-close-btn { background: #f0f0f0; color: #333; }
+
+/* ── Nav Back ────────────────────────────────────────────────────────────── */
+.back-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 50px; padding: 8px 18px;
+  cursor: pointer; font-size: 14px; transition: all 0.2s;
+  margin: 0 32px; flex-shrink: 0;
+}
+.back-btn:hover { background: rgba(255,255,255,0.14); }
+
+/* ── Keyboard (virtual) ─────────────────────────────────────────────────── */
+.vkb { display: none; }
+
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(13,110,138,0.4); border-radius: 3px; }
+
+/* ── Dept Category Browse ─────────────────────────────────────────────── */
+.category-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+.cat-card {
+  background: var(--card); border: 1px solid rgba(13,110,138,0.3);
+  border-radius: 14px; padding: 16px 18px;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 14px;
+}
+.cat-card:hover, .cat-card:active { border-color: var(--teal-light); transform: scale(1.02); }
+.cat-strip-bar { width: 5px; height: 40px; border-radius: 3px; flex-shrink: 0; }
+.cat-strip-bar.blue { background: var(--blue-strip); }
+.cat-strip-bar.yellow { background: var(--yellow-strip); }
+.cat-strip-bar.red { background: var(--red-strip); }
+.cat-strip-bar.green { background: var(--green-strip); }
+.cat-info .cat-name { font-size: 16px; font-weight: 700; }
+.cat-info .cat-name-hi { font-family: var(--font-hi); font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 3px; }
+.cat-info .cat-count { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 4px; }
+
+.loading-spinner {
+  display: none; align-items: center; gap: 12px;
+  color: rgba(255,255,255,0.5); font-size: 14px;
+  padding: 20px;
+}
+.spinner { width: 22px; height: 22px; border: 3px solid rgba(255,255,255,0.1); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.no-results { text-align: center; padding: 40px; color: rgba(255,255,255,0.4); }
+.no-results .icon { font-size: 48px; margin-bottom: 12px; }
+
+/* Alert strip */
+.alert-banner {
+  background: rgba(198,40,40,0.2); border: 1px solid rgba(198,40,40,0.5);
+  border-radius: 10px; padding: 12px 18px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 14px; font-weight: 600;
+  animation: fadeIn 0.3s ease; display: none;
+}
+.alert-banner.show { display: flex; }
+</style>
+</head>
+<body>
+
+<div class="bg-anim"></div>
+<div class="bg-grid"></div>
+
+<!-- ── SOS Button (always visible) ──────────────────────────── -->
+<button class="sos-btn" onclick="showScreen('emergency')">
+  <span>🚨</span>
+  <span>SOS</span>
+</button>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 1: Language Selection
+══════════════════════════════════════════════════ -->
+<div class="screen active" id="screen-lang">
+  <div class="header">
+    <div class="header-logo">
+      <div class="logo-icon">🏥</div>
+      <div class="logo-text"><h1>SATHI</h1><p>Hospital Navigation System</p></div>
+    </div>
+    <div class="header-center">
+      <div class="hospital-name">जवाहरलाल नेहरू चिकित्सालय, अजमेर</div>
+      <div class="hospital-sub">Jawaharlal Nehru Hospital, Ajmer</div>
+    </div>
+    <div class="header-right">
+      <div class="time-display" id="clock">--:--</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="welcome-text">
+      <div class="greeting" id="welcome-text">अपनी भाषा चुनें • Choose Your Language</div>
+      <div class="sub">भाषा चयन करें ताकि हम आपकी बेहतर सहायता कर सकें</div>
+    </div>
+
+    <div class="lang-cards">
+      <div class="lang-card" onclick="setLang('en')">
+        <div class="lang-flag">🇮🇳</div>
+        <div class="lang-name">English</div>
+        <div class="lang-native">अंग्रेज़ी</div>
+      </div>
+      <div class="lang-card" onclick="setLang('hi')">
+        <div class="lang-flag">🇮🇳</div>
+        <div class="lang-name">हिंदी</div>
+        <div class="lang-native">Hindi</div>
+      </div>
+      <div class="lang-card" onclick="setLang('mr')">
+        <div class="lang-flag">🇮🇳</div>
+        <div class="lang-name">मारवाड़ी</div>
+        <div class="lang-native">Marwari</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 2: Home Menu
+══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-home">
+  <div class="header">
+    <div class="header-logo">
+      <div class="logo-icon">🏥</div>
+      <div class="logo-text"><h1>SATHI</h1><p>Hospital Navigation System</p></div>
+    </div>
+    <div class="header-center">
+      <div class="hospital-name">जवाहरलाल नेहरू चिकित्सालय, अजमेर</div>
+      <div class="hospital-sub">Jawaharlal Nehru Hospital, Ajmer</div>
+    </div>
+    <div class="header-right">
+      <div class="lang-pill" onclick="showScreen('lang')" id="lang-display">हिंदी</div>
+      <div class="time-display" id="clock2">--:--</div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="welcome-text">
+      <div class="greeting" id="home-greeting">आपका स्वागत है। आप क्या ढूंढ रहे हैं?</div>
+      <div class="sub">नीचे अपनी ज़रूरत के अनुसार विकल्प चुनें</div>
+    </div>
+
+    <div class="main-options">
+      <div class="main-card" onclick="showScreen('search')">
+        <div class="card-icon">🔍</div>
+        <div>
+          <div class="card-title" data-en="Find Department" data-hi="विभाग खोजें" data-mr="विभाग ढूंढो">Find Department</div>
+          <div class="card-title-hi" data-en="by symptom or name" data-hi="बीमारी से खोजें" data-mr="बीमारी सूं ढूंढो">by symptom or name</div>
+        </div>
+      </div>
+
+      <div class="main-card" onclick="showScreen('browse')">
+        <div class="card-icon">🗂️</div>
+        <div>
+          <div class="card-title" data-en="Browse All" data-hi="सभी विभाग देखें" data-mr="सगळा विभाग देखो">Browse All</div>
+          <div class="card-title-hi" data-en="All departments list" data-hi="विभागों की सूची" data-mr="सगळी लिस्ट">All departments list</div>
+        </div>
+      </div>
+
+      <div class="main-card emergency-card" onclick="showScreen('emergency')">
+        <div class="card-icon">🚑</div>
+        <div>
+          <div class="card-title" data-en="Emergency" data-hi="आपातकाल" data-mr="इमरजेंसी">Emergency</div>
+          <div class="card-title-hi" data-en="Urgent help needed" data-hi="तुरंत सहायता" data-mr="तुरंत मदद">Urgent help needed</div>
+        </div>
+      </div>
+
+      <div class="main-card" onclick="showScreen('gate')">
+        <div class="card-icon">🚪</div>
+        <div>
+          <div class="card-title" data-en="Which Gate?" data-hi="कौन सा गेट?" data-mr="कुण सो गेट?">Which Gate?</div>
+          <div class="card-title-hi" data-en="Find the right entrance" data-hi="सही प्रवेश द्वार" data-mr="सही दरवाजो">Find the right entrance</div>
+        </div>
+      </div>
+
+      <div class="main-card" onclick="showScreen('map')">
+        <div class="card-icon">🗺️</div>
+        <div>
+          <div class="card-title" data-en="Hospital Map" data-hi="हॉस्पिटल नक्शा" data-mr="हॉस्पिटल नकशो">Hospital Map</div>
+          <div class="card-title-hi" data-en="Scan QR for mobile" data-hi="QR स्कैन करें" data-mr="QR स्कैन करो">Scan QR for mobile</div>
+        </div>
+      </div>
+
+      <div class="main-card" onclick="showScreen('help')">
+        <div class="card-icon">📞</div>
+        <div>
+          <div class="card-title" data-en="Help & Info" data-hi="मदद और जानकारी" data-mr="मदद अर जाणकारी">Help & Info</div>
+          <div class="card-title-hi" data-en="Helpline numbers" data-hi="हेल्पलाइन नंबर" data-mr="मदद नंबर">Helpline numbers</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floor strip guide -->
+    <div class="strip-guide">
+      <div class="strip-item"><div class="strip-dot blue"></div><div class="strip-text" data-en="Blue = OPD" data-hi="नीला = ओपीडी" data-mr="नीलो = ओपीडी">Blue = OPD</div></div>
+      <div class="strip-item"><div class="strip-dot yellow"></div><div class="strip-text" data-en="Yellow = Services" data-hi="पीला = सेवाएं" data-mr="पीलो = सेवाएं">Yellow = Services</div></div>
+      <div class="strip-item"><div class="strip-dot red"></div><div class="strip-text" data-en="Red = Emergency" data-hi="लाल = आपातकाल" data-mr="लाल = इमरजेंसी">Red = Emergency</div></div>
+      <div class="strip-item"><div class="strip-dot green"></div><div class="strip-text" data-en="Green = Diagnostics" data-hi="हरा = जांच" data-mr="हरो = जांच">Green = Diagnostics</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 3: Search
+══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-search">
+  <div class="header">
+    <div class="header-logo">
+      <div class="logo-icon">🏥</div>
+      <div class="logo-text"><h1>SATHI</h1><p>JLN Hospital Ajmer</p></div>
+    </div>
+    <div class="header-center">
+      <div class="hospital-name">बीमारी / विभाग खोजें</div>
+      <div class="hospital-sub">Find Department by Symptom</div>
+    </div>
+    <div class="header-right">
+      <div class="time-display" id="clock3">--:--</div>
+    </div>
+  </div>
+
+  <button class="back-btn" onclick="showScreen('home')" style="margin-top:14px;">← <span data-en="Back" data-hi="वापस" data-mr="पाछो">Back</span></button>
+
+  <div class="content">
+    <div class="screen-title">
+      🔍 <span data-en="Search Department" data-hi="विभाग खोजें" data-mr="विभाग ढूंढो">Search Department</span>
+    </div>
+
+    <div class="search-box">
+      <input type="text" class="search-input" id="search-input"
+        placeholder="Type symptom or department name... जैसे: बुखार, आंख, हड्डी..."
+        oninput="handleSearch(this.value)" autocomplete="off">
+      <button class="search-btn" onclick="handleSearch(document.getElementById('search-input').value)">🔍</button>
+    </div>
+
+    <div>
+      <div style="font-size:12px; color: rgba(255,255,255,0.4); margin-bottom: 10px;" data-en="Common symptoms:" data-hi="आम बीमारियां:" data-mr="सामान्य बीमारी:">Common symptoms:</div>
+      <div class="quick-symptoms" id="quick-symptoms">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <div class="loading-spinner" id="search-loading"><div class="spinner"></div> <span data-en="Searching..." data-hi="खोज रहे हैं..." data-mr="ढूंढ रया छां...">Searching...</span></div>
+
+    <div class="results-area" id="search-results">
+      <div class="no-results" id="search-placeholder">
+        <div class="icon">💡</div>
+        <div data-en="Type a symptom above to find the right department" data-hi="ऊपर बीमारी लिखें और सही विभाग खोजें" data-mr="ऊपर बीमारी लिखो अर सही विभाग ढूंढो">Type a symptom above to find the right department</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 4: Dept Detail
+══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-detail">
+  <div class="header">
+    <div class="header-logo">
+      <div class="logo-icon">🏥</div>
+      <div class="logo-text"><h1>SATHI</h1><p>JLN Hospital Ajmer</p></div>
+    </div>
+    <div class="header-center">
+      <div class="hospital-name" id="detail-header-title">Department Info</div>
+      <div class="hospital-sub">Navigation Guide</div>
+    </div>
+    <div class="header-right">
+      <div class="time-display" id="clock4">--:--</div>
+    </div>
+  </div>
+
+  <button class="back-btn" id="detail-back-btn" style="margin-top:14px;">← <span data-en="Back to Search" data-hi="खोज पर वापस" data-mr="खोज पर पाछो">Back to Search</span></button>
+
+  <div class="content" id="detail-content">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 5: Browse All
+══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-browse">
+  <div class="header">
+    <div class="header-logo">
+      <div class="logo-icon">🏥</div>
+      <div class="logo-text"><h1>SATHI</h1><p>JLN Hospital Ajmer</p></div>
+    </div>
+    <div class="header-center">
+      <div class="hospital-name">सभी विभाग</div>
+      <div class="hospital-sub">All Departments</div>
+    </div>
+    <div class="header-right"><div class="time-display" id="clock5">--:--</div></div>
+  </div>
+
+  <button class="back-btn" onclick="showScreen('home')" style="margin-top:14px;">← <span data-en="Back" data-hi="वापस" data-mr="पाछो">Back</span></button>
+
+  <div class="content" style="flex:1; padding: 16px 32px 24px; overflow-y: auto;">
+    <div class="screen-title" style="margin-bottom:16px;">🗂️ <span data-en="All Departments" data-hi="सभी विभाग" data-mr="सगळा विभाग">All Departments</span></div>
+    <div id="browse-list" class="results-area"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 6: Emergency
+══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-emergency">
+  <div class="header">
+    <div class="header-logo">
+      <div class="logo-icon" style="background: linear-gradient(135deg,#b71c1c,#e53935);">🚨</div>
+      <div class="logo-text"><h1 style="color:#ef9a9a;">EMERGENCY</h1><p>Immediate Help</p></div>
+    </div>
+    <div class="header-center">
+      <div class="hospital-name" style="color:#ef9a9a;">आपातकालीन सेवा</div>
+      <div class="hospital-sub">Emergency Services – 24/7</div>
+    </div>
+    <div class="header-right"><div class="time-display" id="clock6">--:--</div></div>
+  </div>
+
+  <button class="back-btn" onclick="showScreen('home')" style="margin-top:14px;">← <span data-en="Back" data-hi="वापस" data-mr="पाछो">Back</span></button>
+
+  <div class="content">
+    <div class="sos-big" onclick="triggerSOS()">🚨</div>
+
+    <div>
+      <div style="font-size:13px; color:rgba(255,255,255,0.5); text-align:center; margin-bottom:6px;" data-en="Emergency Helpline" data-hi="आपातकालीन हेल्पलाइन" data-mr="इमरजेंसी नंबर">Emergency Helpline</div>
+      <div class="sos-number">0145-2625000</div>
+    </div>
+
+    <div class="sos-desc" data-en="Press the button above to alert the emergency ward. Staff will reach you immediately." data-hi="ऊपर बटन दबाएं – आपातकाल वार्ड को तुरंत सूचित किया जाएगा।" data-mr="ऊपर बटन दबाओ – इमरजेंसी टीम तुरंत आवेगी।">Press the button above to alert the emergency ward. Staff will reach you immediately.</div>
+
+    <div style="display:flex; flex-direction:column; gap:10px; width:100%; max-width:400px;">
+      <div class="info-block">
+        <div class="info-row">
+          <div class="info-icon">🚪</div>
+          <div class="info-content">
+            <div class="info-label">Emergency Gate</div>
+            <div class="info-value">Gate 2 – Hospital Road (East Side)</div>
+            <div class="info-value-hi">गेट 2 – हॉस्पिटल रोड, पूर्व की ओर</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">🕐</div>
+          <div class="info-content">
+            <div class="info-label">Available</div>
+            <div class="info-value">24 Hours / 7 Days</div>
+            <div class="info-value-hi">24 घंटे, सातों दिन</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert-banner" id="sos-alert">
+        🚨 <span data-en="Emergency alert sent! Staff has been notified." data-hi="आपातकाल अलर्ट भेजा गया! स्टाफ को सूचित किया गया।" data-mr="इमरजेंसी अलर्ट भेज्यो! स्टाफ नै बताय्यो।">Emergency alert sent!</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 7: Gate Guide
+══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-gate">
+  <div class="header">
+    <div class="header-logo">
+      <div class="logo-icon">🚪</div>
+      <div class="logo-text"><h1>SATHI</h1><p>Gate Guide</p></div>
+    </div>
+    <div class="header-center">
+      <div class="hospital-name">गेट मार्गदर्शिका</div>
+      <div class="hospital-sub">Which Gate to Enter?</div>
+    </div>
+    <div class="header-right"><div class="time-display" id="clock7">--:--</div></div>
+  </div>
+
+  <button class="back-btn" onclick="showScreen('home')" style="margin-top:14px;">← <span data-en="Back" data-hi="वापस" data-mr="पाछो">Back</span></button>
+
+  <div class="content" style="flex:1; overflow-y:auto; padding:16px 32px 24px;">
+    <div id="gate-cards" style="display:flex; flex-direction:column; gap:14px; max-width:800px; margin:0 auto;"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 8: Map / QR
+══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-map">
+  <div class="header">
+    <div class="header-logo">
+      <div class="logo-icon">🗺️</div>
+      <div class="logo-text"><h1>SATHI</h1><p>Hospital Map</p></div>
+    </div>
+    <div class="header-center">
+      <div class="hospital-name">हॉस्पिटल नक्शा</div>
+      <div class="hospital-sub">Scan QR for mobile navigation</div>
+    </div>
+    <div class="header-right"><div class="time-display" id="clock8">--:--</div></div>
+  </div>
+
+  <button class="back-btn" onclick="showScreen('home')" style="margin-top:14px;">← Back</button>
+
+  <div class="content" style="flex:1; display:flex; align-items:center; justify-content:center; gap:32px; padding:20px 40px;">
+    <div style="flex:1; max-width:600px;">
+      <img src="/assets/images/map.jpg" alt="Hospital Map" style="width:100%; border-radius:16px; border:2px solid rgba(13,110,138,0.4);"
+        onerror="this.style.display='none'; document.getElementById('map-fallback').style.display='flex'">
+      <div id="map-fallback" style="display:none; width:100%; aspect-ratio:16/10; background:rgba(13,110,138,0.15); border-radius:16px; border:2px solid rgba(13,110,138,0.3); align-items:center; justify-content:center; flex-direction:column; gap:12px; font-size:14px; color:rgba(255,255,255,0.4);">
+        <span style="font-size:48px;">🗺️</span>
+        <span>Hospital Map (जेपीजी फ़ाइल जोड़ें)</span>
+        <span style="font-size:11px;">Add map.jpg to /frontend/assets/images/</span>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; align-items:center; gap:16px;">
+      <div class="qr-block" id="map-qr-block" style="width:220px;">
+        <img id="map-qr-img" src="" alt="QR Code" style="width:180px;height:180px;" onerror="this.parentElement.style.display='none'">
+        <div class="qr-label">📱 Scan for Mobile Map</div>
+        <div style="font-size:10px; color:#555; font-family: var(--font-hi);">मोबाइल पर QR स्कैन करें</div>
+      </div>
+      <div style="text-align:center; font-size:12px; color:rgba(255,255,255,0.4); max-width:200px;">
+        अपने फोन से QR स्कैन करके पूरा नक्शा देखें
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 9: Help
+══════════════════════════════════════════════════ -->
+<div class="screen" id="screen-help">
+  <div class="header">
+    <div class="header-logo">
+      <div class="logo-icon">📞</div>
+      <div class="logo-text"><h1>SATHI</h1><p>Help & Info</p></div>
+    </div>
+    <div class="header-center">
+      <div class="hospital-name">मदद और जानकारी</div>
+      <div class="hospital-sub">Help & Information</div>
+    </div>
+    <div class="header-right"><div class="time-display" id="clock9">--:--</div></div>
+  </div>
+
+  <button class="back-btn" onclick="showScreen('home')" style="margin-top:14px;">← Back</button>
+
+  <div class="content" style="flex:1; overflow-y:auto; padding:16px 32px 24px; display:flex; flex-direction:column; gap:14px; max-width:700px; margin:0 auto;">
+    <div class="info-block">
+      <div class="info-row">
+        <div class="info-icon">📞</div>
+        <div class="info-content">
+          <div class="info-label">Main Helpline</div>
+          <div class="info-value">0145-2625000</div>
+          <div class="info-value-hi">मुख्य हेल्पलाइन</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🚑</div>
+        <div class="info-content">
+          <div class="info-label">Emergency</div>
+          <div class="info-value">0145-2625000</div>
+          <div class="info-value-hi">आपातकाल</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📍</div>
+        <div class="info-content">
+          <div class="info-label">Address</div>
+          <div class="info-value" style="font-size:13px;">JLN Hospital Road, Ajmer, Rajasthan – 305001</div>
+          <div class="info-value-hi">जेएलएन हॉस्पिटल रोड, अजमेर, राजस्थान</div>
+        </div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">🕐</div>
+        <div class="info-content">
+          <div class="info-label">OPD Hours</div>
+          <div class="info-value">8:00 AM – 2:00 PM (Mon–Sat)</div>
+          <div class="info-value-hi">ओपीडी: सोमवार से शनिवार, सुबह 8 से दोपहर 2 बजे</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-block">
+      <div style="font-size:14px; font-weight:700; margin-bottom:12px; color:var(--teal-light);">🟦🟨🟥🟩 फ्लोर स्ट्रिप गाइड / Floor Strip Guide</div>
+      <div class="info-row"><div class="strip-dot blue" style="width:18px;height:18px;border-radius:4px;flex-shrink:0;"></div><div class="info-content"><div class="info-value">Blue = OPD Departments</div><div class="info-value-hi">नीला = ओपीडी विभाग</div></div></div>
+      <div class="info-row"><div class="strip-dot yellow" style="width:18px;height:18px;border-radius:4px;flex-shrink:0;"></div><div class="info-content"><div class="info-value">Yellow = Services (Medicine, Admin)</div><div class="info-value-hi">पीला = सेवाएं (दवाई, कार्यालय)</div></div></div>
+      <div class="info-row"><div class="strip-dot red" style="width:18px;height:18px;border-radius:4px;flex-shrink:0;"></div><div class="info-content"><div class="info-value">Red = Emergency & Casualty</div><div class="info-value-hi">लाल = आपातकाल व कैजुअल्टी</div></div></div>
+      <div class="info-row"><div class="strip-dot green" style="width:18px;height:18px;border-radius:4px;flex-shrink:0;"></div><div class="info-content"><div class="info-value">Green = Diagnostics (Lab, X-Ray)</div><div class="info-value-hi">हरा = जांच (लैब, एक्स-रे)</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SLIP MODAL
+══════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="slip-modal">
+  <div class="slip-modal">
+    <div class="slip-header">
+      <h2>JAWAHARLAL NEHRU HOSPITAL, AJMER</h2>
+      <h3>जवाहरलाल नेहरू चिकित्सालय, अजमेर</h3>
+      <div style="font-size:11px; color:#777; margin-top:4px;">SATHI Navigation Slip</div>
+    </div>
+    <div class="slip-no" id="slip-no">--</div>
+    <div id="slip-content"></div>
+    <div class="slip-footer">
+      <div>Helpline: 0145-2625000</div>
+      <div>Follow the colored floor strips to your destination</div>
+      <div style="font-family:var(--font-hi); margin-top:2px;">रंगीन पट्टी का पालन करते हुए अपने विभाग तक जाएं</div>
+    </div>
+    <div class="slip-actions">
+      <button class="slip-print-btn" onclick="printSlip()">🖨️ Print Slip</button>
+      <button class="slip-close-btn" onclick="closeSlip()">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════
+// State
+// ══════════════════════════════════════════════════════════
+// Use centralized config (config.js loaded before this script)
+const API = (window.SATHI && window.SATHI.API_BASE) ||
+  (window.location.hostname === 'localhost' ? 'http://localhost:5000' : '');
+
+let currentLang = 'hi';
+let currentDept = null;
+let currentDetailSource = 'search';
+let departments = [];
+let gates = [];
+let vkb = null; // Virtual keyboard instance
+
+const translations = {
+  en: {
+    welcome: "Welcome. What are you looking for?",
+    lang_label: "EN",
+    quickSymptoms: ["Fever", "Eye Problem", "Bone / Fracture", "Heart", "Child Sick", "X-Ray / Lab", "Emergency", "Medicine"],
+    back_to: "Back to Search"
+  },
+  hi: {
+    welcome: "आपका स्वागत है। आप क्या ढूंढ रहे हैं?",
+    lang_label: "हिंदी",
+    quickSymptoms: ["बुखार", "आंख में दर्द", "हड्डी / फ्रेक्चर", "दिल का दर्द", "बच्चे की बीमारी", "एक्स-रे / जांच", "आपातकाल", "दवाई"],
+    back_to: "खोज पर वापस"
+  },
+  mr: {
+    welcome: "थारो स्वागत है। थे के ढूंढ रया छो?",
+    lang_label: "मारवाड़ी",
+    quickSymptoms: ["बुखार", "आंख में दर्द", "हाड़ / फ्रेक्चर", "दिल रो दर्द", "छोटा बाळको बीमार", "एक्स-रे / जांच", "इमरजेंसी", "दवाई"],
+    back_to: "खोज पर पाछो"
+  }
+};
+
+// ══════════════════════════════════════════════════════════
+// Init
+// ══════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', async () => {
+  updateClock();
+  setInterval(updateClock, 1000);
+  await loadDepartments();
+  populateGateCards();
+  populateBrowseList();
+  generateMapQR();
+
+  // ── Virtual Keyboard setup ───────────────────────────────────────────
+  if (window.VirtualKeyboard) {
+    vkb = new VirtualKeyboard({ lang: 'hi' });
+    const searchEl = document.getElementById('search-input');
+    vkb.attach(searchEl, (val) => handleSearch(val));
+
+    // Hide keyboard when tapping outside the keyboard
+    document.addEventListener('pointerdown', (e) => {
+      if (vkb.visible &&
+          !e.target.closest('#vkb-container') &&
+          e.target !== searchEl) {
+        // Only hide if not a search-screen click on the input
+        if (!e.target.closest('#screen-search')) {
+          vkb.hide();
+        }
+      }
+    });
+  }
+
+  // ── Auto-reset to language screen after inactivity ───────────────────
+  const timeout = (window.SATHI && window.SATHI.KIOSK_TIMEOUT_MS) || 300000;
+  let inactivityTimer;
+  const resetTimer = () => {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(() => {
+      if (vkb) vkb.hide();
+      showScreen('lang');
+    }, timeout);
+  };
+  document.addEventListener('touchstart', resetTimer);
+  document.addEventListener('pointerdown', resetTimer);
+  resetTimer();
+});
+
+function updateClock() {
+  const now = new Date();
+  const t = now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: true });
+  document.querySelectorAll('[id^="clock"]').forEach(el => el.textContent = t);
+}
+
+async function loadDepartments() {
+  try {
+    const res = await fetch(`${API}/api/departments`);
+    const data = await res.json();
+    departments = data.departments;
+    gates = data.gates;
+  } catch (e) {
+    // Fallback: load from embedded data if API not available
+    console.warn('API unavailable, using embedded data');
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// Language
+// ══════════════════════════════════════════════════════════
+function setLang(lang) {
+  currentLang = lang;
+  const t = translations[lang];
+
+  // Update all data-lang elements
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.textContent = el.getAttribute(`data-${lang}`) || el.getAttribute('data-en');
+  });
+
+  document.getElementById('lang-display').textContent = t.lang_label;
+  document.getElementById('home-greeting').textContent = t.welcome;
+
+  // Quick symptoms
+  const qs = document.getElementById('quick-symptoms');
+  qs.innerHTML = t.quickSymptoms.map(s =>
+    `<div class="symptom-pill" onclick="quickSearch('${s}')">${s}</div>`
+  ).join('');
+
+  // Sync virtual keyboard language
+  if (vkb) vkb.setLang(lang);
+
+  showScreen('home');
+}
+
+function quickSearch(term) {
+  document.getElementById('search-input').value = term;
+  handleSearch(term);
+}
+
+// ══════════════════════════════════════════════════════════
+// Screen Navigation
+// ══════════════════════════════════════════════════════════
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(`screen-${name}`);
+  if (el) el.classList.add('active');
+
+  if (name === 'search') {
+    const t = translations[currentLang];
+    const qs = document.getElementById('quick-symptoms');
+    qs.innerHTML = t.quickSymptoms.map(s =>
+      `<div class="symptom-pill" onclick="quickSearch('${s}')">${s}</div>`
+    ).join('');
+    // Show virtual keyboard and sync language
+    if (vkb) {
+      vkb.setLang(currentLang);
+      setTimeout(() => vkb.show(), 100);
+    } else {
+      document.getElementById('search-input').focus();
+    }
+  } else {
+    // Hide keyboard when leaving search screen
+    if (vkb && vkb.visible) vkb.hide();
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// Search
+// ══════════════════════════════════════════════════════════
+let searchTimer;
+function handleSearch(query) {
+  clearTimeout(searchTimer);
+  if (!query.trim()) {
+    document.getElementById('search-results').innerHTML = '<div class="no-results" id="search-placeholder"><div class="icon">💡</div><div>Type a symptom to find the right department</div></div>';
+    return;
+  }
+  document.getElementById('search-loading').style.display = 'flex';
+  searchTimer = setTimeout(() => doSearch(query), 300);
+}
+
+async function doSearch(query) {
+  try {
+    const res = await fetch(`${API}/api/search?q=${encodeURIComponent(query)}&lang=${currentLang}`);
+    const data = await res.json();
+    renderResults(data.results);
+  } catch (e) {
+    // Client-side fallback search
+    const q = query.toLowerCase();
+    const results = departments.filter(d =>
+      d.symptoms.some(s => s.includes(q) || q.includes(s)) ||
+      d.name.toLowerCase().includes(q) ||
+      (d.hindi && d.hindi.includes(q)) ||
+      (d.symptoms_hindi && d.symptoms_hindi.some(s => s.includes(q)))
+    ).slice(0, 5);
+    renderResults(results);
+  }
+  document.getElementById('search-loading').style.display = 'none';
+}
+
+function renderResults(results) {
+  const container = document.getElementById('search-results');
+  if (!results.length) {
+    container.innerHTML = '<div class="no-results"><div class="icon">🔍</div><div>No results found. Try a different keyword.</div></div>';
+    return;
+  }
+  container.innerHTML = results.map(d => `
+    <div class="result-card" onclick="showDept('${d.id}', 'search')">
+      <div class="result-strip ${d.strip_color}"></div>
+      <div class="result-info">
+        <div class="result-name">${d.name}</div>
+        <div class="result-name-hi">${d.hindi}</div>
+        <div class="result-meta">🚪 ${d.gate} &nbsp;|&nbsp; 🏢 ${d.floor}</div>
+      </div>
+      <div class="result-arrow">›</div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════════════════
+// Department Detail
+// ══════════════════════════════════════════════════════════
+async function showDept(deptId, source = 'search') {
+  currentDetailSource = source;
+  let dept = departments.find(d => d.id === deptId);
+  if (!dept) {
+    try {
+      const res = await fetch(`${API}/api/department/${deptId}`);
+      dept = await res.json();
+    } catch (e) { return; }
+  }
+  currentDept = dept;
+
+  document.getElementById('detail-header-title').textContent = dept.name;
+  document.getElementById('detail-back-btn').onclick = () => showScreen(source === 'browse' ? 'browse' : 'search');
+
+  // Build QR
+  let qrHTML = `<div style="background:rgba(13,110,138,0.1); border:1px dashed rgba(13,110,138,0.4); border-radius:14px; padding:20px; text-align:center; color:rgba(255,255,255,0.4);">
+    <div style="font-size:32px; margin-bottom:8px;">📱</div>
+    <div style="font-size:12px;">QR Loading...</div>
+  </div>`;
+
+  document.getElementById('detail-content').innerHTML = `
+    <div class="detail-left">
+      <div class="dept-header">
+        <div class="dept-name">${dept.name}</div>
+        <div class="dept-name-hi">${dept.hindi}</div>
+        <div style="margin-top:10px;">
+          <span class="strip-badge ${dept.strip_color}">
+            <span>⬛</span> Follow ${dept.strip_label}
+          </span>
+        </div>
+      </div>
+
+      <div class="dept-image" id="dept-img-container">
+        <span style="font-size:48px;">🏥</span>
+      </div>
+
+      <div class="info-block">
+        <div class="info-row">
+          <div class="info-icon">🚪</div>
+          <div class="info-content">
+            <div class="info-label">Recommended Gate</div>
+            <div class="info-value">${dept.gate}</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">🏢</div>
+          <div class="info-content">
+            <div class="info-label">Floor / Building</div>
+            <div class="info-value">${dept.floor} – ${dept.building}</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">📌</div>
+          <div class="info-content">
+            <div class="info-label">Landmark</div>
+            <div class="info-value">${dept.landmark}</div>
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-icon">🗺️</div>
+          <div class="info-content">
+            <div class="info-label">Directions</div>
+            <div class="info-value" style="font-size:13px;">${dept.directions}</div>
+            <div class="info-value-hi">${dept.directions_hindi}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-right">
+      <div id="dept-qr-container">${qrHTML}</div>
+
+      <div class="action-btns">
+        <button class="btn btn-gold" onclick="openSlip()">
+          🖨️ Print Slip
+        </button>
+        <button class="btn btn-outline" onclick="showScreen('home')">
+          🏠 Home
+        </button>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.05); border-radius:12px; padding:14px; font-size:12px; color:rgba(255,255,255,0.45); line-height:1.6;">
+        <div style="font-weight:700; margin-bottom:4px; color:rgba(255,255,255,0.6);">📱 Mobile Map</div>
+        Scan the QR code with your phone to get the hospital map with highlighted path to this department.
+      </div>
+    </div>
+  `;
+
+  // Load department image
+  loadDeptImage(dept);
+
+  // Load QR
+  loadDeptQR(dept.id);
+
+  showScreen('detail');
+}
+
+function loadDeptImage(dept) {
+  const container = document.getElementById('dept-img-container');
+  const imgMap = {
+    'opd_registration': '5.jpeg',
+    'eye_opd': '5.jpeg',
+    'ent_opd': '5.jpeg',
+    'geriatric': '5.jpeg',
+    'orthopaedic': '5.jpeg',
+    'emergency': '5.jpeg',
+    'cardiology': '9.jpeg',
+    'blood_bank': '8.jpeg',
+    'drug_distribution': '8.jpeg',
+    'medicine_center': '12.jpeg',
+    'admin': '11.jpeg',
+    'canteen': '10.jpeg',
+    'pediatrics': '13.jpeg',
+    'xray_pathology': '7.jpeg',
+    'mri_ct': '7.jpeg'
+  };
+  const imgFile = imgMap[dept.id];
+  if (imgFile) {
+    container.innerHTML = `<img src="/assets/images/${imgFile}" alt="${dept.name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='<span style=font-size:48px>🏥</span>'">`;
+  }
+}
+
+async function loadDeptQR(deptId) {
+  try {
+    const res = await fetch(`${API}/api/qr/${deptId}`);
+    const data = await res.json();
+    document.getElementById('dept-qr-container').innerHTML = `
+      <div class="qr-block">
+        <img src="${data.qr_base64}" alt="QR Code" style="width:180px;height:180px;">
+        <div class="qr-label">📱 Scan for Mobile Map</div>
+        <div style="font-size:10px; color:#555; font-family:var(--font-hi);">मोबाइल पर स्कैन करें</div>
+      </div>
+    `;
+  } catch (e) {
+    document.getElementById('dept-qr-container').innerHTML = `
+      <div style="background:white; border-radius:14px; padding:16px; text-align:center;">
+        <div style="font-size:11px; color:#555; font-weight:700;">📱 Mobile Map</div>
+        <div style="font-size:10px; color:#888; margin-top:8px;">${window.location.origin}/mobile?dept=${deptId}</div>
+      </div>
+    `;
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// Browse All
+// ══════════════════════════════════════════════════════════
+function populateBrowseList() {
+  if (!departments.length) {
+    setTimeout(populateBrowseList, 500);
+    return;
+  }
+  const container = document.getElementById('browse-list');
+  container.innerHTML = departments.map(d => `
+    <div class="result-card" onclick="showDept('${d.id}', 'browse')">
+      <div class="result-strip ${d.strip_color}"></div>
+      <div class="result-info">
+        <div class="result-name">${d.name}</div>
+        <div class="result-name-hi">${d.hindi}</div>
+        <div class="result-meta">🚪 ${d.gate} &nbsp;|&nbsp; 🏢 ${d.floor}</div>
+      </div>
+      <div class="result-arrow">›</div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════════════════
+// Gate Cards
+// ══════════════════════════════════════════════════════════
+function populateGateCards() {
+  if (!gates.length) { setTimeout(populateGateCards, 500); return; }
+  const container = document.getElementById('gate-cards');
+  container.innerHTML = gates.map(g => `
+    <div class="info-block" style="cursor:default;">
+      <div style="font-size:17px; font-weight:800; margin-bottom:12px; color:var(--teal-light);">🚪 ${g.name}</div>
+      <div style="font-family:var(--font-hi); font-size:14px; color:rgba(255,255,255,0.6); margin-bottom:8px;">${g.hindi}</div>
+      <div style="font-size:13px; color:rgba(255,255,255,0.5); margin-bottom:10px;">📍 ${g.location}</div>
+      <div style="font-size:13px; font-weight:600;">Best for: <span style="color:var(--gold);">${g.best_for.join(', ')}</span></div>
+    </div>
+  `).join('');
+}
+
+// ══════════════════════════════════════════════════════════
+// Slip
+// ══════════════════════════════════════════════════════════
+async function openSlip() {
+  if (!currentDept) return;
+  try {
+    const res = await fetch(`${API}/api/slip`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dept_id: currentDept.id, name: 'Patient', lang: currentLang })
+    });
+    const slip = await res.json();
+    renderSlip(slip);
+  } catch (e) {
+    // Fallback slip
+    renderSlip({
+      slip_no: Math.floor(100000 + Math.random() * 900000).toString(),
+      timestamp: new Date().toLocaleString('en-IN'),
+      department: currentDept.name,
+      department_hindi: currentDept.hindi,
+      gate: currentDept.gate,
+      floor: currentDept.floor,
+      building: currentDept.building,
+      strip_color: currentDept.strip_color,
+      directions: currentDept.directions,
+      directions_hindi: currentDept.directions_hindi,
+      landmark: currentDept.landmark,
+      helpline: '0145-2625000'
+    });
+  }
+  document.getElementById('slip-modal').classList.add('open');
+}
+
+function renderSlip(slip) {
+  document.getElementById('slip-no').textContent = `#${slip.slip_no}`;
+  document.getElementById('slip-content').innerHTML = `
+    <div class="slip-row"><label>Date/Time:</label><span>${slip.timestamp}</span></div>
+    <div class="slip-row"><label>Department:</label><span>${slip.department}</span></div>
+    <div class="slip-row"><label>विभाग:</label><span style="font-family:var(--font-hi);">${slip.department_hindi}</span></div>
+    <div class="slip-row"><label>Gate:</label><span>${slip.gate}</span></div>
+    <div class="slip-row"><label>Floor:</label><span>${slip.floor}</span></div>
+    <div class="slip-row"><label>Building:</label><span>${slip.building}</span></div>
+    <div class="slip-strip ${slip.strip_color}">
+      <div class="slip-strip-dot ${slip.strip_color}"></div>
+      <div class="slip-strip-text">Follow the ${slip.strip_color.toUpperCase()} FLOOR STRIP</div>
+    </div>
+    <div style="font-size:11px; margin-top:8px;">${slip.directions}</div>
+    <div style="font-size:10px; font-family:var(--font-hi); color:#555; margin-top:4px;">${slip.directions_hindi}</div>
+  `;
+}
+
+function printSlip() { window.print(); }
+function closeSlip() { document.getElementById('slip-modal').classList.remove('open'); }
+
+// ══════════════════════════════════════════════════════════
+// Emergency SOS
+// ══════════════════════════════════════════════════════════
+async function triggerSOS() {
+  const btn = document.querySelector('.sos-big');
+  btn.style.transform = 'scale(0.9)';
+  setTimeout(() => btn.style.transform = '', 200);
+
+  try {
+    await fetch(`${API}/api/emergency`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ location: 'Main Gate Kiosk' })
+    });
+  } catch (e) {}
+
+  const alert = document.getElementById('sos-alert');
+  alert.classList.add('show');
+  setTimeout(() => alert.classList.remove('show'), 5000);
+}
+
+// ══════════════════════════════════════════════════════════
+// Map QR
+// ══════════════════════════════════════════════════════════
+async function generateMapQR() {
+  try {
+    const res = await fetch(`${API}/api/qr/opd_registration`);
+    const data = await res.json();
+    const url = data.mobile_url.replace('opd_registration', '');
+    // Use base URL QR
+    document.getElementById('map-qr-img').src = data.qr_base64;
+  } catch (e) {}
+}
+</script>
+</body>
+</html>

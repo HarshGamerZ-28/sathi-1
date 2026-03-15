@@ -1,0 +1,40 @@
+{
+  "name": "SATHI – JLN Hospital Ajmer",
+  "short_name": "SATHI",
+  "description": "Smart navigation system for Jawaharlal Nehru Hospital, Ajmer",
+  "start_url": "/mobile",
+  "display": "standalone",
+  "background_color": "#041624",
+  "theme_color": "#0a2342",
+  "orientation": "portrait-primary",
+  "lang": "hi",
+  "icons": [
+    {
+      "src": "/assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["medical", "navigation", "utilities"],
+  "shortcuts": [
+    {
+      "name": "Find Department",
+      "short_name": "Search",
+      "url": "/mobile",
+      "description": "Find your department at JLN Hospital"
+    },
+    {
+      "name": "Emergency",
+      "short_name": "Emergency",
+      "url": "/mobile?dept=emergency",
+      "description": "Emergency ward navigation"
+    }
+  ]
+}

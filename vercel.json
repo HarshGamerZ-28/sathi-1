@@ -1,0 +1,34 @@
+{
+  "version": 2,
+  "outputDirectory": "frontend",
+  "routes": [
+    { "src": "/sw.js",           "dest": "/sw.js",             "headers": { "Cache-Control": "no-cache" } },
+    { "src": "/manifest.json",   "dest": "/manifest.json" },
+    { "src": "/assets/(.*)",     "dest": "/assets/$1" },
+    { "src": "/kiosk",           "dest": "/kiosk/index.html" },
+    { "src": "/kiosk/(.*)",      "dest": "/kiosk/$1" },
+    { "src": "/mobile",          "dest": "/mobile/index.html" },
+    { "src": "/mobile/(.*)",     "dest": "/mobile/$1" },
+    { "src": "/",                "dest": "/website/index.html" },
+    { "src": "/(.*)\\.html",     "dest": "/$1.html" },
+    { "src": "/(.*)",            "dest": "/website/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options",        "value": "SAMEORIGIN" },
+        { "key": "Referrer-Policy",        "value": "strict-origin-when-cross-origin" }
+      ]
+    },
+    {
+      "source": "/assets/images/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
+    },
+    {
+      "source": "/assets/(.*)\\.js",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=3600" }]
+    }
+  ]
+}
