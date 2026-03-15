@@ -8,15 +8,37 @@
       "category": "opd",
       "strip_color": "blue",
       "strip_label": "Blue Line",
-      "gate": "Gate 1 (Main Gate) or Gate 3",
+      "gate": "Gate 1 (Main Gate) or Gate 4",
       "gate_id": "gate1",
       "floor": "Ground Floor",
       "building": "Main OPD Block",
       "image": "opd.jpg",
-      "symptoms": ["registration", "new patient", "fever", "cold", "cough", "headache", "checkup", "general", "body pain", "weakness", "nausea", "vomiting", "diarrhea", "flu"],
-      "symptoms_hindi": ["बुखार", "सर्दी", "खांसी", "सिरदर्द", "नया मरीज", "जांच"],
-      "directions": "Enter from Gate 1 (Main Gate on JLN Hospital Road). Walk straight inside, OPD registration counters are on the right side of the main corridor.",
-      "directions_hindi": "मुख्य गेट 1 से प्रवेश करें और सीधे चलें, ओपीडी काउंटर दाईं ओर है।",
+      "symptoms": [
+        "registration",
+        "new patient",
+        "fever",
+        "cold",
+        "cough",
+        "headache",
+        "checkup",
+        "general",
+        "body pain",
+        "weakness",
+        "nausea",
+        "vomiting",
+        "diarrhea",
+        "flu"
+      ],
+      "symptoms_hindi": [
+        "बुखार",
+        "सर्दी",
+        "खांसी",
+        "सिरदर्द",
+        "नया मरीज",
+        "जांच"
+      ],
+      "directions": "Enter from Gate 4 (OPD Gate on JLN Hospital Road). Walk straight inside, OPD registration counters are on the right side of the main corridor.",
+      "directions_hindi": "गेट 4 से प्रवेश करें और सीधे अंदर चलें, ओपीडी पंजीकरण काउंटर दाईं ओर है।",
       "landmark": "Look for the Blue Floor Strip"
     },
     {
@@ -27,15 +49,28 @@
       "category": "opd",
       "strip_color": "blue",
       "strip_label": "Blue Line",
-      "gate": "Gate 1 (Main Gate) or Gate 3",
+      "gate": "Gate 1 (Main Gate) or Gate 4",
       "gate_id": "gate1",
       "floor": "Ground Floor",
       "building": "Main OPD Block",
       "image": "opd.jpg",
-      "symptoms": ["eye problem", "vision", "blur", "eye pain", "eye infection", "glasses", "cataract", "ophthalmology"],
-      "symptoms_hindi": ["आंख में दर्द", "धुंधला दिखना", "आंख से पानी"],
-      "directions": "Enter Gate 1 or Gate 3, follow Blue strip. Eye OPD is in the main OPD corridor.",
-      "directions_hindi": "गेट 1 या गेट 3 से अंदर आएं, नीली पट्टी का पालन करें।",
+      "symptoms": [
+        "eye problem",
+        "vision",
+        "blur",
+        "eye pain",
+        "eye infection",
+        "glasses",
+        "cataract",
+        "ophthalmology"
+      ],
+      "symptoms_hindi": [
+        "आंख में दर्द",
+        "धुंधला दिखना",
+        "आंख से पानी"
+      ],
+      "directions": "Enter from Gate 4 (OPD Gate on JLN Hospital Road), follow Blue strip. Eye OPD is in the main OPD corridor.",
+      "directions_hindi": "गेट 4 से प्रवेश करें और सीधे अंदर चलें, ओपीडी पंजीकरण काउंटर दाईं ओर है।",
       "landmark": "Follow Blue Floor Strip from Gate 1"
     },
     {
@@ -51,10 +86,24 @@
       "floor": "Ground Floor",
       "building": "Main OPD Block",
       "image": "opd.jpg",
-      "symptoms": ["ear pain", "hearing loss", "nose bleed", "sore throat", "tonsils", "ear", "nose", "throat"],
-      "symptoms_hindi": ["कान में दर्द", "नाक से खून", "गले में दर्द", "टॉन्सिल"],
-      "directions": "Enter Gate 1, follow Blue strip to main OPD block.",
-      "directions_hindi": "गेट 1 से अंदर आएं, नीली पट्टी का पालन करें।",
+      "symptoms": [
+        "ear pain",
+        "hearing loss",
+        "nose bleed",
+        "sore throat",
+        "tonsils",
+        "ear",
+        "nose",
+        "throat"
+      ],
+      "symptoms_hindi": [
+        "कान में दर्द",
+        "नाक से खून",
+        "गले में दर्द",
+        "टॉन्सिल"
+      ],
+      "directions": "Enter from Gate 4 (OPD Gate on JLN Hospital Road), follow Blue strip. Eye OPD is in the main OPD corridor.",
+      "directions_hindi": "गेट 4 से प्रवेश करें और सीधे अंदर चलें, ओपीडी पंजीकरण काउंटर दाईं ओर है।",
       "landmark": "Follow Blue Floor Strip"
     },
     {
@@ -65,15 +114,30 @@
       "category": "opd",
       "strip_color": "blue",
       "strip_label": "Blue Line",
-      "gate": "Gate 4 (Lohagal Road Side)",
+      "gate": "Gate 4 (OPD Gate)",
       "gate_id": "gate4",
       "floor": "Ground Floor",
       "building": "Orthopaedic Wing (Left Block)",
       "image": "opd.jpg",
-      "symptoms": ["bone", "fracture", "joint pain", "back pain", "knee pain", "spine", "ortho", "broken bone", "slip disc"],
-      "symptoms_hindi": ["हड्डी टूटना", "जोड़ों में दर्द", "कमर दर्द", "घुटना दर्द"],
-      "directions": "Use Gate 4 on Lohagal Road. Orthopaedic OPD is in the left wing, follow Blue strip.",
-      "directions_hindi": "लोहागल रोड पर गेट 4 से प्रवेश करें, बाईं ओर हड्डी रोग विभाग है।",
+      "symptoms": [
+        "bone",
+        "fracture",
+        "joint pain",
+        "back pain",
+        "knee pain",
+        "spine",
+        "ortho",
+        "broken bone",
+        "slip disc"
+      ],
+      "symptoms_hindi": [
+        "हड्डी टूटना",
+        "जोड़ों में दर्द",
+        "कमर दर्द",
+        "घुटना दर्द"
+      ],
+      "directions": "Use Gate 4 (OPD Gate on JLN Hospital Road). Orthopaedic OPD is in the left wing, follow Blue strip.",
+      "directions_hindi": "गेट 4 से प्रवेश करें, बाईं ओर हड्डी रोग विभाग है।",
       "landmark": "Left wing near Gate 4 entrance"
     },
     {
@@ -84,16 +148,36 @@
       "category": "emergency",
       "strip_color": "red",
       "strip_label": "Red Line",
-      "gate": "Gate 2 (Hospital Road, East Side)",
-      "gate_id": "gate2",
+      "gate": "Gate 1 (Main Gate on JLN Hospital Road)",
+      "gate_id": "gate1",
       "floor": "Ground Floor",
       "building": "Emergency Block",
       "image": "opd.jpg",
-      "symptoms": ["accident", "unconscious", "heart attack", "emergency", "serious", "critical", "poisoning", "burn", "road accident", "faint", "breathing problem", "stroke", "seizure"],
-      "symptoms_hindi": ["दुर्घटना", "बेहोश", "दिल का दौरा", "जहर", "गंभीर"],
-      "directions": "Use Gate 2 on Hospital Road (East Side). Emergency ward is immediately visible. RED strip leads directly.",
-      "directions_hindi": "हॉस्पिटल रोड पर गेट 2 का उपयोग करें। आपातकाल विभाग तुरंत दाईं ओर है।",
-      "landmark": "Gate 2 – Red Floor Strip – available 24/7"
+      "symptoms": [
+        "accident",
+        "unconscious",
+        "heart attack",
+        "emergency",
+        "serious",
+        "critical",
+        "poisoning",
+        "burn",
+        "road accident",
+        "faint",
+        "breathing problem",
+        "stroke",
+        "seizure"
+      ],
+      "symptoms_hindi": [
+        "दुर्घटना",
+        "बेहोश",
+        "दिल का दौरा",
+        "जहर",
+        "गंभीर"
+      ],
+      "directions": "Use Gate 1 (Main Gate on JLN Hospital Road) and Turn Left after 100m. Emergency ward is immediately visible. RED strip leads directly.",
+      "directions_hindi": "गेट 1 से प्रवेश करें। 100 मीटर चलने के बाद बाईं ओर मुड़ें। आपातकाल विभाग तुरंत सामने है।",
+      "landmark": "Gate 1 – available 24/7"
     },
     {
       "id": "cardiology",
@@ -103,15 +187,28 @@
       "category": "emergency",
       "strip_color": "red",
       "strip_label": "Red Line",
-      "gate": "Gate 2 or Gate 7",
-      "gate_id": "gate2",
+      "gate": "Gate 3",
+      "gate_id": "gate3",
       "floor": "Second Floor",
       "building": "Cardiothoracic Surgery Block",
       "image": "cardiology.jpg",
-      "symptoms": ["chest pain", "heart", "palpitation", "shortness of breath", "cardiac", "BP", "blood pressure", "angiography"],
-      "symptoms_hindi": ["सीने में दर्द", "दिल की धड़कन", "सांस लेने में तकलीफ"],
-      "directions": "Enter Gate 2, follow Red strip. Cardiothoracic Surgery is on the 2nd floor. Sign reads 'कार्डियोथोरेसिक सर्जरी विभाग'.",
-      "directions_hindi": "गेट 2 से प्रवेश करें, लाल पट्टी का पालन करें, दूसरी मंजिल पर हृदय रोग विभाग है।",
+      "symptoms": [
+        "chest pain",
+        "heart",
+        "palpitation",
+        "shortness of breath",
+        "cardiac",
+        "BP",
+        "blood pressure",
+        "angiography"
+      ],
+      "symptoms_hindi": [
+        "सीने में दर्द",
+        "दिल की धड़कन",
+        "सांस लेने में तकलीफ"
+      ],
+      "directions": "Don't Enter Gate 1 (Main Gate), Turn Right and after 250m Enter Gate 3, follow Red strip. Cardiothoracic Surgery is on the 2nd floor. Sign reads 'कार्डियोथोरेसिक सर्जरी विभाग'.",
+      "directions_hindi": "गेट 1 से प्रवेश न करें। 250 मीटर चलने के बाद गेट 3 से प्रवेश करें, लाल पट्टी का पालन करें, दूसरी मंजिल पर हृदय रोग विभाग है।",
       "landmark": "Red Floor Strip – 2nd Floor"
     },
     {
@@ -122,15 +219,28 @@
       "category": "diagnostics",
       "strip_color": "green",
       "strip_label": "Green Line",
-      "gate": "Gate 1 or Gate 6",
+      "gate": "Gate 1",
       "gate_id": "gate1",
       "floor": "Ground Floor",
       "building": "Diagnostic Block",
       "image": "opd.jpg",
-      "symptoms": ["x-ray", "blood test", "urine test", "lab test", "pathology", "report", "diagnosis"],
-      "symptoms_hindi": ["एक्स-रे", "खून की जांच", "पेशाब की जांच", "रिपोर्ट"],
-      "directions": "Enter Gate 1 or Gate 6. Follow Green strip to the central diagnostic block.",
-      "directions_hindi": "गेट 1 या गेट 6 से अंदर आएं, हरी पट्टी का पालन करें।",
+      "symptoms": [
+        "x-ray",
+        "blood test",
+        "urine test",
+        "lab test",
+        "pathology",
+        "report",
+        "diagnosis"
+      ],
+      "symptoms_hindi": [
+        "एक्स-रे",
+        "खून की जांच",
+        "पेशाब की जांच",
+        "रिपोर्ट"
+      ],
+      "directions": "Enter Gate 1. Follow Green strip to the central diagnostic block.",
+      "directions_hindi": "गेट 1 से अंदर आएं, हरी पट्टी का पालन करें।",
       "landmark": "Green Floor Strip – Diagnostic Block"
     },
     {
@@ -141,15 +251,26 @@
       "category": "diagnostics",
       "strip_color": "green",
       "strip_label": "Green Line",
-      "gate": "Gate 6",
-      "gate_id": "gate6",
+      "gate": "Gate 1",
+      "gate_id": "gate1",
       "floor": "Ground Floor",
       "building": "Radiology Block",
       "image": "opd.jpg",
-      "symptoms": ["mri", "ct scan", "scan", "brain scan", "spine scan", "radiology"],
-      "symptoms_hindi": ["एमआरआई", "सीटी स्कैन", "ब्रेन स्कैन"],
-      "directions": "Enter Gate 6, follow Green strip to the Radiology/MRI section.",
-      "directions_hindi": "गेट 6 से प्रवेश करें, हरी पट्टी का पालन करें।",
+      "symptoms": [
+        "mri",
+        "ct scan",
+        "scan",
+        "brain scan",
+        "spine scan",
+        "radiology"
+      ],
+      "symptoms_hindi": [
+        "एमआरआई",
+        "सीटी स्कैन",
+        "ब्रेन स्कैन"
+      ],
+      "directions": "Enter Gate 1, follow Green strip to the Radiology/MRI section.",
+      "directions_hindi": "गेट 1 से प्रवेश करें, हरी पट्टी का पालन करें।",
       "landmark": "Green Floor Strip – Radiology"
     },
     {
@@ -160,15 +281,26 @@
       "category": "services",
       "strip_color": "yellow",
       "strip_label": "Yellow Line",
-      "gate": "Gate 1 or Gate 3",
-      "gate_id": "gate1",
+      "gate": "Gate 4",
+      "gate_id": "gate4",
       "floor": "Ground Floor",
       "building": "Main OPD Block – Front Corridor",
       "image": "drug_distribution.jpg",
-      "symptoms": ["medicine", "prescription", "drug", "pharmacy", "free medicine", "mukhyamantri nishulk dava"],
-      "symptoms_hindi": ["दवाई", "मुफ्त दवा", "पर्ची"],
-      "directions": "Enter Gate 1 or Gate 3. Drug Distribution Centres (No. 2, 13, 17) are in the main corridor.",
-      "directions_hindi": "गेट 1 या 3 से प्रवेश करें, मुख्य गलियारे में दवा वितरण केंद्र है।",
+      "symptoms": [
+        "medicine",
+        "prescription",
+        "drug",
+        "pharmacy",
+        "free medicine",
+        "mukhyamantri nishulk dava"
+      ],
+      "symptoms_hindi": [
+        "दवाई",
+        "मुफ्त दवा",
+        "पर्ची"
+      ],
+      "directions": "Enter Gate 4. Drug Distribution Centres (No. 2, 13, 17) are in the main corridor.",
+      "directions_hindi": "गेट 4 से प्रवेश करें, मुख्य गलियारे में दवा वितरण केंद्र है।",
       "landmark": "Yellow Floor Strip – Main Corridor"
     },
     {
@@ -179,15 +311,24 @@
       "category": "services",
       "strip_color": "yellow",
       "strip_label": "Yellow Line",
-      "gate": "Gate 4 (Lohagal Road)",
-      "gate_id": "gate4",
+      "gate": "Gate 1 (Main Gate)",
+      "gate_id": "gate1",
       "floor": "Ground Floor",
       "building": "Administrative Block – Ground Level",
       "image": "medicine_center.jpg",
-      "symptoms": ["buy medicine", "medical shop", "jan aushadhi", "generic medicine"],
-      "symptoms_hindi": ["दवाई खरीदना", "जन औषधि", "सस्ती दवाई"],
-      "directions": "Near Gate 4. The Co-op Medical Shop (Vikray Kendra) and Jan Aushadhi Kendra are at the Administrative Block.",
-      "directions_hindi": "गेट 4 के पास, प्रशासनिक भवन के नीचे दवाई की दुकान है।",
+      "symptoms": [
+        "buy medicine",
+        "medical shop",
+        "jan aushadhi",
+        "generic medicine"
+      ],
+      "symptoms_hindi": [
+        "दवाई खरीदना",
+        "जन औषधि",
+        "सस्ती दवाई"
+      ],
+      "directions": "Enter Gate 1. The Co-op Medical Shop (Vikray Kendra) and Jan Aushadhi Kendra are at the Administrative Block.",
+      "directions_hindi": "गेट 1 से प्रवेश करें, प्रशासनिक भवन के नीचे दवाई की दुकान है।",
       "landmark": "Yellow Floor Strip – Near Admin Block"
     },
     {
@@ -198,15 +339,28 @@
       "category": "services",
       "strip_color": "yellow",
       "strip_label": "Yellow Line",
-      "gate": "Gate 4 (Lohagal Road)",
-      "gate_id": "gate4",
+      "gate": "Gate 1 (Main Gate)",
+      "gate_id": "gate1",
       "floor": "Ground to Third Floor",
       "building": "Prashashnik Bhawan",
       "image": "admin.jpg",
-      "symptoms": ["complaint", "certificate", "office", "administration", "records", "documents", "disability certificate"],
-      "symptoms_hindi": ["शिकायत", "प्रमाण पत्र", "दस्तावेज", "कार्यालय"],
-      "directions": "Enter Gate 4, turn right. The Prashashnik Bhawan (pink-striped 3-floor building) is visible.",
-      "directions_hindi": "गेट 4 से प्रवेश करें और दाईं ओर मुड़ें, गुलाबी रंग की इमारत प्रशासनिक भवन है।",
+      "symptoms": [
+        "complaint",
+        "certificate",
+        "office",
+        "administration",
+        "records",
+        "documents",
+        "disability certificate"
+      ],
+      "symptoms_hindi": [
+        "शिकायत",
+        "प्रमाण पत्र",
+        "दस्तावेज",
+        "कार्यालय"
+      ],
+      "directions": "Enter Gate 1, turn right. The Prashashnik Bhawan (pink-striped 3-floor building) is visible.",
+      "directions_hindi": "गेट 1 से प्रवेश करें और दाईं ओर मुड़ें, गुलाबी रंग की इमारत प्रशासनिक भवन है।",
       "landmark": "Yellow Floor Strip – Pink Building near Gate 4"
     },
     {
@@ -217,16 +371,28 @@
       "category": "services",
       "strip_color": "yellow",
       "strip_label": "Yellow Line",
-      "gate": "Gate 2 or Gate 3",
-      "gate_id": "gate2",
+      "gate": "Gate 1 (Main Gate)",
+      "gate_id": "gate1",
       "floor": "Ground Floor",
       "building": "Near Emergency Section",
       "image": "canteen.jpg",
-      "symptoms": ["food", "canteen", "tea", "eat", "juice", "hungry"],
-      "symptoms_hindi": ["खाना", "चाय", "जूस", "भूख"],
-      "directions": "Near Gate 2/Emergency area. Sansity Bhojnalaya canteen is on the left side near emergency.",
-      "directions_hindi": "गेट 2 के पास, आपातकाल विभाग के बाईं ओर कैंटीन है।",
-      "landmark": "Yellow Floor Strip – Near Emergency Gate 2"
+      "symptoms": [
+        "food",
+        "canteen",
+        "tea",
+        "eat",
+        "juice",
+        "hungry"
+      ],
+      "symptoms_hindi": [
+        "खाना",
+        "चाय",
+        "जूस",
+        "भूख"
+      ],
+      "directions": "Near Gate 1/Emergency area. Sansity Bhojnalaya canteen is on the left side near emergency.",
+      "directions_hindi": "गेट 1 के पास, आपातकाल विभाग के बाईं ओर कैंटीन है।",
+      "landmark": "Yellow Floor Strip – Near Emergency Gate 1"
     },
     {
       "id": "pediatrics",
@@ -236,16 +402,31 @@
       "category": "diagnostics",
       "strip_color": "green",
       "strip_label": "Green Line",
-      "gate": "Gate 7 or Gate 2",
-      "gate_id": "gate7",
+      "gate": "Gate 1 (Main Gate)",
+      "gate_id": "gate1",
       "floor": "Ground Floor to Upper Floors",
       "building": "Shishu Rog Vibhag (Modern Block)",
       "image": "pediatrics.jpg",
-      "symptoms": ["child", "baby", "infant", "newborn", "kids fever", "child illness", "pediatric", "vaccination"],
-      "symptoms_hindi": ["बच्चा", "शिशु", "नवजात", "बच्चे की बीमारी", "टीकाकरण"],
-      "directions": "The new Shishu Rog block (grey-yellow modern building) is near Gate 7 on Hospital Road. Follow Green strip.",
-      "directions_hindi": "गेट 7 से प्रवेश करें, हरी पट्टी का पालन करें। नया शिशु रोग भवन दाईं ओर है।",
-      "landmark": "Green Floor Strip – Modern Grey-Yellow Building near Gate 7"
+      "symptoms": [
+        "child",
+        "baby",
+        "infant",
+        "newborn",
+        "kids fever",
+        "child illness",
+        "pediatric",
+        "vaccination"
+      ],
+      "symptoms_hindi": [
+        "बच्चा",
+        "शिशु",
+        "नवजात",
+        "बच्चे की बीमारी",
+        "टीकाकरण"
+      ],
+      "directions": "Enter Gate 1 (Main Gate). Move 100m straight. The new Shishu Rog block (grey-yellow modern building) is on the Right side. Follow Green strip.",
+      "directions_hindi": "गेट 1 से प्रवेश करें, हरी पट्टी का पालन करें। नया शिशु रोग भवन दाईं ओर है।",
+      "landmark": "Green Floor Strip – Modern Grey-Yellow Building near Gate 1"
     },
     {
       "id": "blood_bank",
@@ -255,16 +436,26 @@
       "category": "emergency",
       "strip_color": "red",
       "strip_label": "Red Line",
-      "gate": "Gate 6",
-      "gate_id": "gate6",
+      "gate": "Gate 1 (Main Gate)",
+      "gate_id": "gate1",
       "floor": "Ground Floor",
       "building": "Diagnostic/Lab Block",
       "image": "opd.jpg",
-      "symptoms": ["blood", "blood bank", "donate blood", "blood requirement", "transfusion"],
-      "symptoms_hindi": ["खून", "ब्लड बैंक", "रक्त"],
-      "directions": "Enter Gate 6, follow Red strip to Blood Bank near Pathology.",
-      "directions_hindi": "गेट 6 से प्रवेश करें, लाल पट्टी का पालन करें।",
-      "landmark": "Red Floor Strip near Gate 6"
+      "symptoms": [
+        "blood",
+        "blood bank",
+        "donate blood",
+        "blood requirement",
+        "transfusion"
+      ],
+      "symptoms_hindi": [
+        "खून",
+        "ब्लड बैंक",
+        "रक्त"
+      ],
+      "directions": "Enter Gate 1 (Main Gate). Move 100m straight. The Blood Bank is on the Right side. Follow Red strip.",
+      "directions_hindi": "गेट 1 से प्रवेश करें, लाल पट्टी का पालन करें।",
+      "landmark": "Red Floor Strip near Gate 1"
     },
     {
       "id": "geriatric",
@@ -274,15 +465,25 @@
       "category": "opd",
       "strip_color": "blue",
       "strip_label": "Blue Line",
-      "gate": "Gate 1 or Gate 3",
-      "gate_id": "gate1",
+      "gate": "Gate 4 (OPD Gate)",
+      "gate_id": "gate4",
       "floor": "Ground Floor",
       "building": "Main OPD Block – Room 49",
       "image": "opd.jpg",
-      "symptoms": ["elderly", "senior citizen", "old age", "geriatric", "old person"],
-      "symptoms_hindi": ["बुजुर्ग", "वृद्ध", "बड़े बुजुर्ग"],
-      "directions": "Enter Gate 1 or Gate 3. Dedicated Geriatric Centre is in Room 49 of the OPD block.",
-      "directions_hindi": "गेट 1 या 3 से प्रवेश करें, कमरा नंबर 49 में वृद्धजन केंद्र है।",
+      "symptoms": [
+        "elderly",
+        "senior citizen",
+        "old age",
+        "geriatric",
+        "old person"
+      ],
+      "symptoms_hindi": [
+        "बुजुर्ग",
+        "वृद्ध",
+        "बड़े बुजुर्ग"
+      ],
+      "directions": "Enter Gate 4 (OPD Gate). Dedicated Geriatric Centre is in Room 49 of the OPD block.",
+      "directions_hindi": "गेट 4 से प्रवेश करें, कमरा नंबर 49 में वृद्धजन केंद्र है।",
       "landmark": "Blue Floor Strip – Room 49, OPD Block"
     }
   ],
@@ -292,36 +493,54 @@
       "name": "Gate 1 – Main Gate",
       "hindi": "गेट 1 – मुख्य प्रवेश द्वार",
       "marwari": "गेट 1 – मुख्य दरवाजो",
-      "location": "JLN Hospital Road (South Side)",
+      "location": "JLN Hospital Road",
       "image": "gate1.jpg",
-      "best_for": ["OPD", "Registration", "Drug Distribution", "Eye OPD", "ENT OPD", "Diagnostics"]
+      "best_for": [
+        "Emergency",
+        "Casualty",
+        "Neurology",
+        "Canteen",
+        "Drug Distribution",
+        "Administration",
+        "Medical Shop",
+        "Pediatrics (Shishu Rog)"
+      ]
     },
     {
       "id": "gate2",
-      "name": "Gate 2 – Emergency Gate",
-      "hindi": "गेट 2 – आपातकालीन गेट",
-      "marwari": "गेट 2 – इमरजेंसी दरवाजो",
-      "location": "Hospital Road (East Side)",
+      "name": "Gate 2 – Emergency Gate/Back Gate",
+      "hindi": "गेट 2 – आपातकालीन गेट/बैक गेट",
+      "marwari": "गेट 2 – इमरजेंसी दरवाजो/बैक दरवाजो",
+      "location": "Hospital Road",
       "image": "gate2.jpg",
-      "best_for": ["Emergency", "Casualty", "Cardiology", "Canteen"]
+      "best_for": [
+        "Emergency",
+        "Casualty"
+      ]
+    },
+    {
+      "id": "gate3",
+      "name": "Gate 3 – Cardiology Gate",
+      "hindi": "गेट 3 – कार्डियोलॉजी गेट",
+      "marwari": "गेट 3 – कार्डियोलॉजी दरवाजो",
+      "location": "Cardiology Gate",
+      "image": "gate3.jpg",
+      "best_for": [
+        "Cardiology"
+      ]
     },
     {
       "id": "gate4",
-      "name": "Gate 4 – Lohagal Road Gate",
-      "hindi": "गेट 4 – लोहागल रोड गेट",
-      "marwari": "गेट 4 – लोहागल रो दरवाजो",
-      "location": "Lohagal Road (West Side)",
+      "name": "Gate 4 – OPD Gate",
+      "hindi": "गेट 4 – OPD गेट",
+      "marwari": "गेट 4 – OPD दरवाजो",
+      "location": "OPD Gate",
       "image": "gate4.jpg",
-      "best_for": ["Orthopaedic OPD", "Administration", "Medical Shop"]
-    },
-    {
-      "id": "gate7",
-      "name": "Gate 7 – Dental & Neuro Gate",
-      "hindi": "गेट 7 – दंत एवं न्यूरो गेट",
-      "marwari": "गेट 7 – दांत अर दिमाग रो दरवाजो",
-      "location": "Hospital Road (North-East)",
-      "image": "gate1.jpg",
-      "best_for": ["Dental", "Neurology", "Pediatrics (Shishu Rog)"]
+      "best_for": [
+        "OPD",
+        "Geriatric",
+        "Registration"
+      ]
     }
   ],
   "emergency_number": "0145-2625000",

@@ -117,17 +117,19 @@ class HospitalMap {
 
     get DEPARTMENTS() {
         return [
-            { id: 'opd', label: 'OPD', x: 350, y: 150, r: 18, color: 'blue', gate: 'gate4', path: [[72, 320], [250, 320], [350, 320], [350, 150]] },
-            { id: 'emergency', label: 'Emergency [E]', x: 560, y: 150, r: 20, color: 'red', gate: 'gate2', path: [[650, 320], [560, 320], [560, 150]], pulse: true },
-            { id: 'ortho', label: 'Ortho [O]', x: 125, y: 150, r: 18, color: 'blue', gate: 'gate4', path: [[72, 320], [125, 320], [125, 150]] },
-            { id: 'child', label: 'Child [C]', x: 610, y: 440, r: 18, color: 'green', gate: 'gate1', path: [[450, 320], [610, 320], [610, 440]] },
-            { id: 'park', label: 'Park [P]', x: 600, y: 240, r: 15, color: 'green', gate: 'gate2', path: [[650, 320], [600, 320], [600, 240]] },
+            { id: 'opd', label: 'OPD', x: 350, y: 150, r: 18, color: 'blue', gate: 'gate4', path: [[450, 320], [250, 320], [350, 320], [350, 150]] },
+            { id: 'emergency', label: 'Emergency [E]', x: 560, y: 150, r: 20, color: 'red', gate: 'gate2', path: [[450, 320], [560, 320], [560, 150]], pulse: true },
+            { id: 'ortho', label: 'Ortho [O]', x: 125, y: 150, r: 18, color: 'blue', gate: 'gate4', path: [[450, 320], [125, 320], [125, 150]] },
+            // PARK: Moved in front of Neuro/Emergency
+            { id: 'park', label: 'Park [P]', x: 700, y: 220, r: 15, color: 'green', gate: 'gate2', path: [[450, 320], [700, 320], [700, 220]], shape: 'triangle' },
             { id: 'admin', label: 'Admin [A]', x: 460, y: 440, r: 16, color: 'yellow', gate: 'gate1', path: [[450, 320], [460, 320], [460, 440]] },
-            { id: 'neurology', label: 'Neurology [N]', x: 745, y: 100, r: 16, color: 'blue', gate: 'gate2', path: [[650, 320], [745, 320], [745, 100]] },
-            { id: 'registration', label: 'Registration [R]', x: 280, y: 280, r: 16, color: 'yellow', gate: 'gate4', path: [[72, 320], [280, 320], [280, 280]] },
+            { id: 'child', label: 'Child [C]', x: 610, y: 440, r: 18, color: 'green', gate: 'gate1', path: [[450, 320], [610, 320], [610, 440]] },
+            { id: 'neurology', label: 'Neurology [N]', x: 745, y: 100, r: 16, color: 'blue', gate: 'gate2', path: [[450, 320], [745, 320], [745, 100]] },
+            { id: 'registration', label: 'Registration [R]', x: 280, y: 280, r: 16, color: 'yellow', gate: 'gate4', path: [[450, 320], [280, 320], [280, 280]] },
             { id: 'canteen', label: 'Food/Canteen [F]', x: 480, y: 280, r: 16, color: 'yellow', gate: 'gate1', path: [[450, 320], [480, 320], [480, 280]] },
-            { id: 'cardiology', label: 'Cardiology [CA]', x: 140, y: 500, r: 18, color: 'red', gate: 'gate3', path: [[350, 550], [350, 500], [140, 500]] },
-            { id: 'parking_child', label: 'Child Parking', x: 680, y: 440, r: 14, color: 'yellow', gate: 'gate1', path: [[450, 320], [680, 320], [680, 440]] }
+            { id: 'cardiology', label: 'Cardiology [CA]', x: 140, y: 500, r: 18, color: 'red', gate: 'gate3', path: [[450, 320], [350, 500], [140, 500]] },
+            // PARKING: Renamed and shifted further right with a hexagon/diamond shape
+            { id: 'parking', label: 'Parking', x: 780, y: 440, r: 15, color: 'yellow', gate: 'gate2', path: [[450, 320], [780, 320], [780, 440]], shape: 'diamond' }
         ];
     }
 
@@ -209,16 +211,18 @@ class HospitalMap {
         const style = document.createElement('style');
         style.textContent = `
       @keyframes sathi-dash {
-        to { stroke-dashoffset: -20; }
+        to { stroke-dashoffset: -24; }
       }
       @keyframes sathi-pulse-dot {
-        0%,100% { r: 10; opacity: 1; }
-        50%      { r: 15; opacity: 0.6; }
+        0%,100% { r: 12; opacity: 0.8; }
+        50%      { r: 18; opacity: 0.4; }
       }
       .sathi-nav-path {
-        animation: sathi-dash 0.6s linear infinite;
+        stroke-dasharray: 12, 12;
+        animation: sathi-dash 0.8s linear infinite;
+        filter: drop-shadow(0 0 3px rgba(59, 130, 246, 0.5));
       }
-      .sathi-pulse { animation: sathi-pulse-dot 1.4s ease-in-out infinite; }
+      .sathi-pulse { animation: sathi-pulse-dot 1.5s ease-in-out infinite; }
     `;
         this.container.appendChild(style);
     }
@@ -402,41 +406,45 @@ class HospitalMap {
 
     _drawDepartments() {
         const c = this.c;
-        const colorMap = {
-            blue: c.blue,
-            yellow: c.yellow,
-            red: c.red,
-            green: c.green_strip,
-        };
+        const colorMap = { blue: c.blue, yellow: c.yellow, red: c.red, green: c.green_strip };
 
         this.DEPARTMENTS.forEach(dept => {
             const fill = colorMap[dept.color];
             const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
             g.setAttribute('id', 'dept-' + dept.id);
-            g.style.cursor = this.onDeptClick ? 'pointer' : 'default';
+            g.style.cursor = 'pointer';
 
-            // Dept circle
-            const circle = this._circle(g, dept.x, dept.y, dept.r, fill, '#ffffff', 2);
-
-            // Icon letter
-            this._text(g, dept.x, dept.y + 4, dept.label.charAt(0),
-                dept.r * 0.85, '#ffffff', 'middle', '800');
-
-            // Label below
-            const lblLines = dept.label.split('\n');
-            const lblY = dept.y + dept.r + 10;
-            lblLines.forEach((line, i) => {
-                // white bg pill for readability
-                this._text(g, dept.x, lblY + i * 9, line, 7,
-                    this.darkMode ? '#e8f4f8' : '#1a2a3a', 'middle', '700');
-            });
-
-            if (this.onDeptClick) {
-                g.addEventListener('click', () => this.onDeptClick(dept.id));
-                g.addEventListener('mouseenter', () => circle.setAttribute('stroke-width', '3.5'));
-                g.addEventListener('mouseleave', () => circle.setAttribute('stroke-width', '2'));
+            if (dept.shape === 'triangle') {
+                // Drawing Triangle for Park
+                const points = `${dept.x},${dept.y - 20} ${dept.x - 20},${dept.y + 15} ${dept.x + 20},${dept.y + 15}`;
+                const tri = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+                tri.setAttribute('points', points);
+                tri.setAttribute('fill', fill);
+                tri.setAttribute('stroke', '#ffffff');
+                tri.setAttribute('stroke-width', '2');
+                g.appendChild(tri);
+            } else if (dept.shape === 'diamond') {
+                // Drawing Diamond/Hexagon for Parking
+                const points = `${dept.x},${dept.y - 18} ${dept.x + 18},${dept.y} ${dept.x},${dept.y + 18} ${dept.x - 18},${dept.y}`;
+                const dia = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+                dia.setAttribute('points', points);
+                dia.setAttribute('fill', fill);
+                dia.setAttribute('stroke', '#ffffff');
+                dia.setAttribute('stroke-width', '2');
+                g.appendChild(dia);
+            } else {
+                // Default Circle
+                this._circle(g, dept.x, dept.y, dept.r, fill, '#ffffff', 2);
             }
 
+            // Icon letter inside the shape
+            this._text(g, dept.x, dept.y + 4, dept.label.charAt(0), dept.r * 0.8, '#ffffff', 'middle', '800');
+
+            // Labels below
+            const lblY = dept.y + dept.r + 12;
+            this._text(g, dept.x, lblY, dept.label, 7, this.darkMode ? '#e8f4f8' : '#1a2a3a', 'middle', '700');
+
+            if (this.onDeptClick) g.addEventListener('click', () => this.onDeptClick(dept.id));
             this._gDepts.appendChild(g);
         });
     }
@@ -473,64 +481,29 @@ class HospitalMap {
 
         this.activeDept = deptId;
         const c = this.c;
-        const colorMap = {
-            blue: c.blue,
-            yellow: c.yellow,
-            red: c.red,
-            green: c.green_strip,
-        };
-        const pathColor = colorMap[dept.color];
+        const pathColor = "#3b82f6"; // Google Maps Blue
 
-        // Find gate marker and animate it
-        const gateId = 'gate-' + dept.gate;
-        const gateEl = this.svg.getElementById(gateId);
-        if (gateEl) {
-            gateEl.querySelector('circle').setAttribute('stroke-width', '4');
-        }
+        // 1. Draw the "Glow" layer
+        this._polyline(this._gPath, dept.path, 'rgba(59, 130, 246, 0.2)', 14, null, 'sathi-glow');
 
-        // 1) Shadow/glow path (wider, semi-transparent)
-        const shadow = this._polyline(this._gPath, dept.path, 'rgba(255,255,255,0.12)', 16, null, null);
+        // 2. Draw the Solid Base
+        this._polyline(this._gPath, dept.path, pathColor, 6, null, null);
 
-        // 2) Base path (solid)
-        const base = this._polyline(this._gPath, dept.path, pathColor, 6, null, null);
-        base.style.opacity = '0.35';
-
-        // 3) Animated dashed overlay (the "moving" line)
-        const animated = this._polyline(this._gPath, dept.path, '#ffffff', 4, '10 10', 'sathi-nav-path');
-        animated.style.opacity = '0.9';
+        // 3. Draw the Animated "Google" Dashed Line
+        const animated = this._polyline(this._gPath, dept.path, '#ffffff', 3, '10,10', 'sathi-nav-path');
         animated.setAttribute('marker-end', `url(#${this._arrowId})`);
 
-        // 4) Start dot (at gate)
-        const start = dept.path[0];
-        const startDot = this._circle(this._gPath, start[0], start[1], 8, pathColor, '#ffffff', 2.5);
+        // 4. Draw the "You Are Here" Dot at the Gate
+        const [startX, startY] = dept.path[0];
+        this._circle(this._gPath, startX, startY, 8, '#ffffff', pathColor, 3);
 
-        // 5) End dot with pulse (at department)
-        const end = dept.path[dept.path.length - 1];
-        const endRing = this._circle(this._gPath, end[0], end[1], 18, 'none', pathColor, 3);
-        endRing.setAttribute('class', 'sathi-pulse');
-        const endDot = this._circle(this._gPath, end[0], end[1], 11, pathColor, '#ffffff', 2.5);
+        // 5. Draw the Destination Pin at the Dept
+        const [endX, endY] = dept.path[dept.path.length - 1];
+        const endPin = this._circle(this._gPath, endX, endY, 12, pathColor, '#ffffff', 2);
+        endPin.setAttribute('class', 'sathi-pulse');
 
-        // 6) "START" label at gate entry
-        const dir = this._getGateDir(dept.gate);
-        const sl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        sl.setAttribute('x', start[0] + dir[0]); sl.setAttribute('y', start[1] + dir[1]);
-        sl.setAttribute('font-size', '8'); sl.setAttribute('fill', '#ffffff');
-        sl.setAttribute('text-anchor', 'middle'); sl.setAttribute('font-weight', '800');
-        sl.setAttribute('font-family', '"Exo 2", sans-serif');
-        sl.setAttribute('paint-order', 'stroke');
-        sl.setAttribute('stroke', 'rgba(0,0,0,0.5)'); sl.setAttribute('stroke-width', '2');
-        sl.textContent = 'START HERE';
-        this._gPath.appendChild(sl);
-
-        // 7) Highlight the dept circle
-        const deptEl = this.svg.getElementById('dept-' + deptId);
-        if (deptEl) {
-            const circle = deptEl.querySelector('circle');
-            if (circle) {
-                circle.setAttribute('stroke', '#ffffff');
-                circle.setAttribute('stroke-width', '4');
-            }
-        }
+        // 6. Visual Label
+        this._text(this._gPath, startX, startY - 20, 'START', 8, '#ffffff', 'middle', '800');
     }
 
     clearPath() {
