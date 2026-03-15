@@ -193,5 +193,5 @@ JLN Hospital Road, Ajmer, Rajasthan – 305001
 
 ---
 
-**Built by Harsh · GEC Ajmer · SATHI Navigation System · Hackathon Demo**  
+**Built by Harsh · GEC Ajmer · SATHI Navigation System **  
 Stack: Flask · Python · Vanilla JS · HTML/CSS · Render · Vercel

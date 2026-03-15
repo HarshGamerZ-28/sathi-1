@@ -69,25 +69,16 @@ class HospitalMap {
 
     get BUILDINGS() {
         return [
-            // Left wing – Orthopaedic + Admin
-            { id: 'left_upper', x: 72, y: 32, w: 165, h: 220, label: 'Admin / PMR', labelY: 50 },
-            { id: 'left_lower', x: 72, y: 262, w: 165, h: 258, label: 'Orthopaedic Wing', labelY: 280 },
+            // Top Row (North of Road)
+            { id: 'ortho_blk', x: 50, y: 50, w: 150, h: 180, label: 'Orthopaedic Wing [O]', labelY: 70 },
+            { id: 'opd_blk', x: 250, y: 50, w: 200, h: 180, label: 'OPD Block', labelY: 70 },
+            { id: 'emergency_blk', x: 500, y: 50, w: 120, h: 180, label: 'Emergency [E]', labelY: 70 },
+            { id: 'neuro_blk', x: 670, y: 30, w: 150, h: 140, label: 'Neurology [N]', labelY: 50 },
 
-            // Central OPD block (main corridor)
-            { id: 'opd_block', x: 247, y: 282, w: 368, h: 170, label: 'OPD / Registration', labelY: 300 },
-
-            // Upper diagnostic block
-            { id: 'diag_left', x: 247, y: 32, w: 170, h: 240, label: 'Wards / X-Ray', labelY: 50 },
-            { id: 'diag_right', x: 427, y: 32, w: 188, h: 135, label: 'Blood Bank / Lab', labelY: 50 },
-            { id: 'mri_block', x: 427, y: 177, w: 188, h: 95, label: 'MRI / Radiology', labelY: 193 },
-
-            // Right wing – Emergency / Wards
-            { id: 'right_upper', x: 625, y: 32, w: 193, h: 200, label: 'Pediatrics / Neuro', labelY: 50 },
-            { id: 'right_lower', x: 625, y: 242, w: 193, h: 210, label: 'Emergency / Wards', labelY: 260 },
-
-            // Lower service area
-            { id: 'svc_left', x: 247, y: 462, w: 180, h: 88, label: 'Parking / Services', labelY: 478 },
-            { id: 'canteen_blk', x: 437, y: 462, w: 178, h: 88, label: 'Canteen / Pharmacy', labelY: 478 },
+            // Bottom Row (South of Road)
+            { id: 'admin_blk', x: 400, y: 380, w: 120, h: 120, label: 'Admin Block [A]', labelY: 400 },
+            { id: 'child_blk', x: 550, y: 380, w: 120, h: 120, label: 'Child / Pediatrics [C]', labelY: 400 },
+            { id: 'cardio_blk', x: 50, y: 450, w: 180, h: 100, label: 'Cardiology [CA]', labelY: 470 },
         ];
     }
 
@@ -121,110 +112,26 @@ class HospitalMap {
 
     get GATES() {
         return [
-            { id: 'gate1', label: 'Gate 1\nMain Gate', x: 818, y: 340, side: 'right', recommended: true },
-            { id: 'gate2', label: 'Gate 2\nEmergency', x: 818, y: 440, side: 'right' },
-            { id: 'gate3', label: 'Gate 3', x: 431, y: 550, side: 'bottom' },
-            { id: 'gate4', label: 'Gate 4\nLohagal Rd', x: 72, y: 420, side: 'left' },
-            { id: 'gate5', label: 'Gate 5', x: 310, y: 32, side: 'top' },
-            { id: 'gate6', label: 'Gate 6', x: 540, y: 32, side: 'top' },
-            { id: 'gate7', label: 'Gate 7\nDental/Neuro', x: 818, y: 130, side: 'right' },
-            { id: 'gate8', label: 'Gate 8', x: 686, y: 32, side: 'top' },
+            { id: 'gate1', label: 'Gate 1\nMain Gate', x: 450, y: 320, side: 'top', recommended: true },
+            { id: 'gate2', label: 'Gate 2\nEmergency', x: 650, y: 320, side: 'top' },
+            { id: 'gate3', label: 'Gate 3\nCardio Gate', x: 350, y: 550, side: 'bottom' },
+            { id: 'gate4', label: 'Gate 4\nOPD Gate', x: 72, y: 320, side: 'right' },
         ];
     }
 
     get DEPARTMENTS() {
         return [
-            {
-                id: 'opd_registration', label: 'OPD\nRegistration', labelHi: 'पंजीकरण',
-                x: 380, y: 342, r: 18, color: 'blue',
-                gate: 'gate1',
-                path: [[818, 340], [754, 340], [754, 362], [431, 362], [380, 362], [380, 342]]
-            },
-            {
-                id: 'eye_opd', label: 'Eye OPD', labelHi: 'नेत्र',
-                x: 310, y: 342, r: 14, color: 'blue',
-                gate: 'gate1',
-                path: [[818, 340], [754, 340], [754, 362], [431, 362], [310, 362], [310, 342]]
-            },
-            {
-                id: 'ent_opd', label: 'ENT OPD', labelHi: 'नाक-कान-गला',
-                x: 310, y: 315, r: 14, color: 'blue',
-                gate: 'gate1',
-                path: [[818, 340], [754, 340], [754, 362], [431, 362], [310, 362], [310, 315]]
-            },
-            {
-                id: 'geriatric', label: 'Geriatric\nCentre', labelHi: 'वृद्धजन',
-                x: 455, y: 342, r: 14, color: 'blue',
-                gate: 'gate1',
-                path: [[818, 340], [754, 340], [754, 362], [455, 362], [455, 342]]
-            },
-            {
-                id: 'orthopaedic', label: 'Orthopaedic\nOPD', labelHi: 'हड्डी रोग',
-                x: 145, y: 390, r: 18, color: 'blue',
-                gate: 'gate4',
-                path: [[72, 420], [175, 420], [175, 390], [145, 390]]
-            },
-            {
-                id: 'emergency', label: 'Emergency\n24/7', labelHi: 'आपातकाल',
-                x: 754, y: 380, r: 20, color: 'red',
-                gate: 'gate2',
-                path: [[818, 440], [754, 440], [754, 380]],
-                pulse: true
-            },
-            {
-                id: 'cardiology', label: 'Cardiology', labelHi: 'हृदय रोग',
-                x: 754, y: 290, r: 16, color: 'red',
-                gate: 'gate2',
-                path: [[818, 440], [754, 440], [754, 290]]
-            },
-            {
-                id: 'xray_pathology', label: 'X-Ray /\nPathology', labelHi: 'एक्स-रे / जांच',
-                x: 310, y: 177, r: 16, color: 'green',
-                gate: 'gate1',
-                path: [[818, 340], [754, 340], [754, 177], [431, 177], [310, 177]]
-            },
-            {
-                id: 'mri_ct', label: 'MRI / CT\nScan', labelHi: 'एमआरआई',
-                x: 510, y: 207, r: 16, color: 'green',
-                gate: 'gate6',
-                path: [[540, 32], [540, 177], [510, 177], [510, 207]]
-            },
-            {
-                id: 'blood_bank', label: 'Blood\nBank', labelHi: 'ब्लड बैंक',
-                x: 580, y: 100, r: 16, color: 'red',
-                gate: 'gate6',
-                path: [[540, 32], [540, 100], [580, 100]]
-            },
-            {
-                id: 'drug_distribution', label: 'Drug\nDistribution', labelHi: 'दवा वितरण',
-                x: 500, y: 342, r: 16, color: 'yellow',
-                gate: 'gate1',
-                path: [[818, 340], [754, 340], [754, 362], [500, 362], [500, 342]]
-            },
-            {
-                id: 'medicine_center', label: 'Medical\nShop', labelHi: 'दवाई दुकान',
-                x: 175, y: 440, r: 14, color: 'yellow',
-                gate: 'gate4',
-                path: [[72, 420], [175, 420], [175, 440]]
-            },
-            {
-                id: 'admin', label: 'Admin\nBlock', labelHi: 'प्रशासनिक',
-                x: 145, y: 180, r: 16, color: 'yellow',
-                gate: 'gate4',
-                path: [[72, 420], [175, 420], [175, 180], [145, 180]]
-            },
-            {
-                id: 'canteen', label: 'Canteen', labelHi: 'कैंटीन',
-                x: 510, y: 490, r: 16, color: 'yellow',
-                gate: 'gate3',
-                path: [[431, 550], [431, 490], [510, 490]]
-            },
-            {
-                id: 'pediatrics', label: 'Shishu Rog\nPediatrics', labelHi: 'बाल रोग',
-                x: 700, y: 100, r: 18, color: 'green',
-                gate: 'gate7',
-                path: [[818, 130], [754, 130], [754, 100], [700, 100]]
-            },
+            { id: 'opd', label: 'OPD', x: 350, y: 150, r: 18, color: 'blue', gate: 'gate4', path: [[72, 320], [250, 320], [350, 320], [350, 150]] },
+            { id: 'emergency', label: 'Emergency [E]', x: 560, y: 150, r: 20, color: 'red', gate: 'gate2', path: [[650, 320], [560, 320], [560, 150]], pulse: true },
+            { id: 'ortho', label: 'Ortho [O]', x: 125, y: 150, r: 18, color: 'blue', gate: 'gate4', path: [[72, 320], [125, 320], [125, 150]] },
+            { id: 'child', label: 'Child [C]', x: 610, y: 440, r: 18, color: 'green', gate: 'gate1', path: [[450, 320], [610, 320], [610, 440]] },
+            { id: 'park', label: 'Park [P]', x: 600, y: 240, r: 15, color: 'green', gate: 'gate2', path: [[650, 320], [600, 320], [600, 240]] },
+            { id: 'admin', label: 'Admin [A]', x: 460, y: 440, r: 16, color: 'yellow', gate: 'gate1', path: [[450, 320], [460, 320], [460, 440]] },
+            { id: 'neurology', label: 'Neurology [N]', x: 745, y: 100, r: 16, color: 'blue', gate: 'gate2', path: [[650, 320], [745, 320], [745, 100]] },
+            { id: 'registration', label: 'Registration [R]', x: 280, y: 280, r: 16, color: 'yellow', gate: 'gate4', path: [[72, 320], [280, 320], [280, 280]] },
+            { id: 'canteen', label: 'Food/Canteen [F]', x: 480, y: 280, r: 16, color: 'yellow', gate: 'gate1', path: [[450, 320], [480, 320], [480, 280]] },
+            { id: 'cardiology', label: 'Cardiology [CA]', x: 140, y: 500, r: 18, color: 'red', gate: 'gate3', path: [[350, 550], [350, 500], [140, 500]] },
+            { id: 'parking_child', label: 'Child Parking', x: 680, y: 440, r: 14, color: 'yellow', gate: 'gate1', path: [[450, 320], [680, 320], [680, 440]] }
         ];
     }
 
@@ -401,17 +308,11 @@ class HospitalMap {
     // ── Layers ───────────────────────────────────────────────────────────────
     _drawRoads() {
         const c = this.c;
-        // Background (road colour)
         this._rect(this._gRoads, 0, 0, 900, 580, c.road, null, 0, 0);
-
-        // Road labels
+        // Main Hospital Road (Horizontal)
+        this._text(this._gRoads, 450, 335, 'MAIN HOSPITAL ROAD', 9, c.roadLabel, 'middle', '700');
+        // Side Entrance
         this._text(this._gRoads, 30, 300, 'LOHAGAL ROAD', 9, c.roadLabel, 'middle', '700');
-        this._text(this._gRoads, 860, 350, 'HOSPITAL ROAD', 9, c.roadLabel, 'middle', '700');
-        this._text(this._gRoads, 450, 572, 'JLN HOSPITAL ROAD', 9, c.roadLabel, 'middle', '700');
-
-        // Rotate the vertical road labels
-        const leftLabel = this.svg.querySelector('text:nth-of-type(1)');
-        const rightLabel = this.svg.querySelector('text:nth-of-type(2)');
     }
 
     _drawCampus() {
