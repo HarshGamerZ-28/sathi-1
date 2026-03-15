@@ -214,9 +214,9 @@ def ai_assist():
             'en': 'Respond in simple English.'
         }.get(lang, 'Respond in Hindi.')
 
-        prompt = f"""You are SATHI, the AI assistant for JLN Hospital, Ajmer.
-Guide the patient based on these departments:
-{dept_list}
+        prompt = f"""
+    You are SATHI, an AI for JLN Hospital, Ajmer. 
+    Map the patient's symptoms to one of these IDs: {dept_ids_list}
 
 Rules:
 1. Identify the most relevant department. You MUST only use an 'id' from the provided list.
@@ -232,8 +232,15 @@ Instructions:
 - For serious injuries/chest pain, prioritize 'emergency'.
 - Response must end with DEPT_JSON:{{...}}
 
-Patient says: {user_message}"""
+Patient says: "{user_message}"
 
+Return ONLY a JSON response:
+    {{
+      "explanation": "A short 1-sentence guide in {lang}",
+      "primary_id": "the_matching_dept_id",
+      "is_emergency": false
+    }}
+    """
         genai.configure(api_key=os.environ.get('GEMINI_API_KEY'))
         model = genai.GenerativeModel('gemini-1.5-flash')
         
