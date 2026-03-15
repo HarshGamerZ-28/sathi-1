@@ -8,7 +8,7 @@
 
 const SATHI_CONFIG = {
   // ── Change this to your Render URL after deployment ──────────────────────
-  RENDER_URL: 'https://sathi-jln.onrender.com',
+  RENDER_URL: 'https://sathi-l301.onrender.com',
 
   // ── Auto-detect: uses localhost in dev, Render URL in production ──────────
   get API_BASE() {
@@ -31,10 +31,10 @@ const SATHI_CONFIG = {
 
   // ── Strip colors ─────────────────────────────────────────────────────────
   STRIP_COLORS: {
-    blue:   { hex: '#1565c0', label: 'Blue Line',   category: 'OPD'         },
-    yellow: { hex: '#f9a825', label: 'Yellow Line', category: 'Services'    },
-    red:    { hex: '#c62828', label: 'Red Line',    category: 'Emergency'   },
-    green:  { hex: '#2e7d32', label: 'Green Line',  category: 'Diagnostics' },
+    blue: { hex: '#1565c0', label: 'Blue Line', category: 'OPD' },
+    yellow: { hex: '#f9a825', label: 'Yellow Line', category: 'Services' },
+    red: { hex: '#c62828', label: 'Red Line', category: 'Emergency' },
+    green: { hex: '#2e7d32', label: 'Green Line', category: 'Diagnostics' },
   },
 };
 
