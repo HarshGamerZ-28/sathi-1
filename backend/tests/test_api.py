@@ -189,3 +189,5 @@ def test_get_gates(client):
     gate_ids = [g['id'] for g in gates]
     assert 'gate1' in gate_ids
     assert 'gate2' in gate_ids
+    assert 'gate3' in gate_ids
+    assert 'gate4' in gate_ids
