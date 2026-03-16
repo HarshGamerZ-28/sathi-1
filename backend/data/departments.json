@@ -212,6 +212,43 @@
       "landmark": "Red Floor Strip – 2nd Floor"
     },
     {
+      "id": "neurology",
+      "name": "Neurology / Neuro-Surgery",
+      "hindi": "न्यूरोलॉजी विभाग (मस्तिष्क एवं तंत्रिका)",
+      "marwari": "दिमाग अर नसां रो विभाग",
+      "category": "opd",
+      "strip_color": "blue",
+      "strip_label": "Blue Line",
+      "gate": "Gate 1 (Main Gate) or Gate 2",
+      "gate_id": "gate1",
+      "floor": "Ground Floor",
+      "building": "Super Specialty Block",
+      "image": "neuro.jpg",
+      "symptoms": [
+        "brain",
+        "nerves",
+        "paralysis",
+        "seizure",
+        "migraine",
+        "dizziness",
+        "numbness",
+        "tremors",
+        "stroke",
+        "fainting"
+      ],
+      "symptoms_hindi": [
+        "लकवा",
+        "दौरे पड़ना",
+        "सिर घूमना",
+        "सुन्न होना",
+        "मिर्गी",
+        "दिमाग की नस"
+      ],
+      "directions": "Enter from Gate 1 (Main Gate). Follow the main road straight towards the Triangle Park. The Neurology department is located in the Super Specialty Block directly behind the park area.",
+      "directions_hindi": "गेट 1 (मुख्य गेट) से प्रवेश करें। मुख्य सड़क से सीधे त्रिकोणीय पार्क की ओर चलें। न्यूरोलॉजी विभाग पार्क के ठीक पीछे सुपर स्पेशलिटी ब्लॉक में स्थित है।",
+      "landmark": "Located behind the Triangle Park"
+    },
+    {
       "id": "xray_pathology",
       "name": "X-Ray / Pathology Lab",
       "hindi": "एक्स-रे / पैथोलॉजी लैब",
@@ -494,7 +531,7 @@
       "hindi": "गेट 1 – मुख्य प्रवेश द्वार",
       "marwari": "गेट 1 – मुख्य दरवाजो",
       "location": "JLN Hospital Road",
-      "image": "gate1.jpg",
+      "image": "3.jpeg",
       "best_for": [
         "Emergency",
         "Casualty",
@@ -512,7 +549,7 @@
       "hindi": "गेट 2 – आपातकालीन गेट/बैक गेट",
       "marwari": "गेट 2 – इमरजेंसी दरवाजो/बैक दरवाजो",
       "location": "Hospital Road",
-      "image": "gate2.jpg",
+      "image": "4.jpeg",
       "best_for": [
         "Emergency",
         "Casualty"
@@ -524,7 +561,7 @@
       "hindi": "गेट 3 – कार्डियोलॉजी गेट",
       "marwari": "गेट 3 – कार्डियोलॉजी दरवाजो",
       "location": "Cardiology Gate",
-      "image": "gate3.jpg",
+      "image": "18.jpeg",
       "best_for": [
         "Cardiology"
       ]
@@ -535,7 +572,7 @@
       "hindi": "गेट 4 – OPD गेट",
       "marwari": "गेट 4 – OPD दरवाजो",
       "location": "OPD Gate",
-      "image": "gate4.jpg",
+      "image": "16.jpeg",
       "best_for": [
         "OPD",
         "Geriatric",
